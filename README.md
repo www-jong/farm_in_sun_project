@@ -1,2 +1,2 @@
-# farm_in_sun_project
-파이널 프로젝트 
+# Farm_in_sun
+farm_in_sun 프로젝트
