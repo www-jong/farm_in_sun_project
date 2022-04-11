@@ -9,11 +9,11 @@
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="/static/plugins/fontawesome-free/css/all.min.css">
   <!-- icheck bootstrap -->
-  <link rel="stylesheet" href="/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <link rel="stylesheet" href="/static/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="/static/dist/css/adminlte.min.css">
 </head>
 
 <body class="hold-transition login-page">
@@ -28,7 +28,7 @@
 
         <form method="post">  <!--액션제외하면 현재페이지주소로 요청이 감-->
           <div class="input-group mb-3">
-            <input type="text" name="uid" class="form-control" placeholder="아이디">
+            <input type="text" name="id" class="form-control" placeholder="아이디">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
@@ -36,7 +36,7 @@
             </div>
           </div>
           <div class="input-group mb-3">
-            <input type="password" name="upw" class="form-control" placeholder="비밀번호">
+            <input type="password" name="pwd" class="form-control" placeholder="비밀번호">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-lock"></span>
@@ -46,11 +46,9 @@
           <div class="row">
             <div class="col-8">
               <div class="icheck-primary">
-                <!-- <input type="checkbox" id="remember">
-                <label for="remember">
-                  Remember Me
-                </label> -->
+                <a href="/join" class="text-center">join</a>
               </div>
+              {{ userName}}
             </div>
             <!-- /.col -->
             <div class="col-4">
@@ -74,11 +72,11 @@
   <!-- /.login-box -->
 
   <!-- jQuery -->
-  <script src="/plugins/jquery/jquery.min.js"></script>
+  <script src="/static/plugins/jquery/jquery.min.js"></script>
   <!-- Bootstrap 4 -->
-  <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- AdminLTE App -->
-  <script src="/dist/js/adminlte.min.js"></script>
+  <script src="/static/dist/js/adminlte.min.js"></script>
 </body>
 
 </html>
