@@ -4,7 +4,7 @@ from flask import session
 import db
 from datetime import timedelta
 
-from route import commons
+from route import public
 from route import sign
 from route import user
 
@@ -26,7 +26,7 @@ def login():
 
 
 
-app.register_blueprint(commons.bp)
+app.register_blueprint(public.bp)
 app.register_blueprint(sign.bp)
 app.register_blueprint(user.bp)
 
@@ -62,7 +62,6 @@ def trans():
         'code': 1,
         'msg' : data
     })
-
 """
 
 if __name__=='__main__':

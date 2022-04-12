@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="utf-8">
+  
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>회원가입</title>
   <!-- Google Font: Source Sans Pro -->
@@ -54,15 +55,6 @@
             <div class="row">
               <div class="col-8">
                 <div class="icheck-primary">
-                <c:if test="${message == 'error' }">
-                        <div style="color:red">
-                        이미 존재하는 id입니다. </div>
-                        </c:if>
-                        <c:if test="${message == 'success' }">
-                        <script>
-                        alert('회원가입 성공!');
-                        </script>
-                        </c:if>
                 </div>
               </div>
               <!-- /.col -->
