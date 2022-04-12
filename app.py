@@ -4,11 +4,13 @@ from flask import session
 import db
 from datetime import timedelta
 
+from route import commons
+from route import sign
+from route import user
 
 
-app = Flask(__name__)
+app=Flask(__name__)
 app.secret_key='너무나도보안적인시크릿키'
-
 
 @app.before_request
 def make_session_permanent(): #세션의 만료시간 설정 : 60분
@@ -16,72 +18,20 @@ def make_session_permanent(): #세션의 만료시간 설정 : 60분
     app.permanent_session_lifetime = timedelta(minutes=2)
 
 
-# 첫화면(로그인페이지)
-@app.route('/',methods=['GET','POST'])
+@app.route('/',methods=['GET','POST']) # 초기화면
 def login():
     session.clear()
-    if request.method=='GET':
-        id= request.args.get('id')
-        return render_template('login.html')
-    else:
-        #get이 아니면 모두 post 
-        id=request.form['id']
-        pwd=request.form['pwd']
-        # 디비 로그인 체크
-        result=db.select_login(id,pwd)
-        if result:
-            session['userid']=result['id']
-            print(session['userid'])
-            # 만약, url이 변경되더라도, 변경되는 지점 이외에는 다른 부분은 수정할 필요가 없다.
-            return redirect(url_for('home'))
-        else:
-            # 회원아니면
-                #회원아님처리
-                return render_template('ejs/alert.html')
 
-# 로그인 후 이동하는 페이지
-@app.route('/home')
-def home():
-    if "userid" in session:
-        #SSR수행시 값을 전달하는 방법
-        return render_template('index.html',userName=session['userid'])
-    else:#세션정보 있을시, 
-        return redirect(url_for('login'))
-
-@app.route('/join', methods=['GET','POST'])
-def join():
-    if request.method=='GET':
-        id= request.args.get('id')
-        print("회원가입시도")
-        return render_template('join.html')
-    else:
-        #get이 아니면 모두 post 
-        username=request.form['username']
-        id=request.form['id']
-        pwd=request.form['pwd']
-        print("%s : %s : %s"%(username,id,pwd))
-        # 디비 로그인 체크
-        result=db.create_join(username,id,pwd)
-        if result:
-            #print(session['userid'])
-            print("패스")
-            # 만약, url이 변경되더라도, 변경되는 지점 이외에는 다른 부분은 수정할 필요가 없다.
-            return render_template('login.html',info="가입성공")
-        else:
-            # 회원가입 에러 띄우기
-                return render_template('/ejs/join_error.ejs')
-
-@app.route('/logout')
-def logout():
-    session.clear()#세션초기화
-    return redirect(url_for('login'))
+    return render_template('intro.html')
 
 
 
+app.register_blueprint(commons.bp)
+app.register_blueprint(sign.bp)
+app.register_blueprint(user.bp)
 
 
-
-
+"""
 @app.route('/service/ml', methods=['GET','POST'])
 def ml():    
     if request.method == 'GET':
@@ -113,6 +63,7 @@ def trans():
         'msg' : data
     })
 
+"""
 
 if __name__=='__main__':
     app.run(debug=True)
