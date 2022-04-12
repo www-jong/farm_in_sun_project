@@ -73,28 +73,24 @@
       /* service */
       .box{
       margin: 0 auto; /* auto 알아서 중앙으로 맞춰줌 */
-      border-bottom: 1px solid #000000;
       padding: 20px 0 20px 0; 
       width: 1280px;
       height: 300px;
       }
 
       #box1{
-        background-color: #ff8000;
         width: 350px;
         height: 200px;
         margin-left: 55px;
         float: left;
       }
       #box2{
-        background-color: #be81f7;
         width: 350px;
         height: 200px;
         margin-left: 50px;
         float: left;}
       
       #box3{
-      background-color: #be81f7;
       width: 350px;
       height: 200px;
       margin-left: 50px;
@@ -115,7 +111,7 @@
           <a href="#service">Services</a>
         </li>
         <li>
-          <a href="#">Contact</a>
+          <a href="#contact">Contact</a>
         </li>
       </ul>
     </nav>
@@ -157,13 +153,13 @@
         </button>
         <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
+          <span class="visually-hidden" id="about">Next</span>
         </button>
       </div>
       <!-- 사진 스크롤 끝 -->
 
       <!-- About --> 
-    <div style="margin-top: 60; margin-bottom: 100px;" id="about">
+    <div style="margin-top: 60; margin-bottom: 50px;">
       <div class="card mb-3" style="max-width: 700px; margin: auto;">
         <div class="row g-0">
           <div class="col-md-4">
@@ -177,31 +173,110 @@
               Farm in Sun 웹 서비스는 잎 면적 예측 AI를 이용해 생육정도를 추정하고, 간편하게 집에서 기르는 식물의 생육환경 최적화 서비스를 제공합니다.<br>
               죽어가는 식물, 얼마나 자랐는지 알고 싶은 식물의 사진을 업로드 해 실시간으로 피드백을 받을 수 있습니다.
               </p>
-              <p class="card-text"><small class="text-muted">누구나 쉽게 식물 키울 수 있어요</small></p>
+              <p class="card-text" id="service"><small class="text-muted">누구나 쉽게 식물 키울 수 있어요</small></p>
             </div>
           </div>
         </div>
       </div>
     </div>
 
+    <hr style="margin-bottom: 80px;">
+
     <!-- Service -->
-    <div class="box" id="service" >
-      <!-- <p style="text-align:center; font-size: 50px; font-family: 'Noto Sans KR', sans-serif;"> Our Services</p> -->
-      
+    <div class="box"  style="margin-top: 20px;">      
       <div id="box1">
-        <p>생육 일지</p>
+        <svg width="38" height="60" viewBox="0 0 38 60" xmlns="http://www.w3.org/2000/svg">
+          <g fill="none" fill-rule="evenodd">
+            <path d="M11.302 33.347a16.863 16.863 0 01-1.698-1.012 16.807 16.807 0 01-7.35-13.92c0-9.271 7.466-16.788 16.674-16.788 9.207 0 16.672 7.517 16.672 16.787 0 6.374-3.529 11.92-8.725 14.76m-.222 1.8v7.32H11.2v-7.32M22.587 8.946L16.08 19.403h6.33l-5.803 9.877m2.32 12.2v-4.067m-5.287 9.354h10.573M13.64 52.46h10.573m-7.32 5.693h4.067" stroke="#1A73E8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M-1 0h88.653v61H-1z"></path>
+          </g>
+        </svg>
+      <div class="gfe-head-intro gfe-mod-spacer-2-top" style="margin-top: 30;">
+        <h2 class="gfe-headline gfe-headline--headline-5 gfe-head-intro__headline ">식물 기록 일지</h2>
       </div>
+      <p class="gfe-body gfe-mod-spacer-2-top">
+        Farm in Sun은 스마트 식물 기록 일지의 일종입니다.
+        기록 하는 날 마다 나의 식물이 얼만큼 잘 자라고 있는지 상세한 일지를 기록 할 수 있고,
+        사진 등록 및 메세지 작성이 가능해 이전 일지와 비교하며 식물에 대한 지식을 쌓을 수 있습니다.<br>
+        일지를 통해 더이상 죽어가는 식물이 아닌 무럭무럭 자라는 식물 키우기가 가능합니다
+        </p>
+      <div class="gfe-grid__col--span-12-sm gfe-grid__col--span-6-md gfe-grid__col--span-4-lg gfe-grid__col--span-4-xl gfe-mod-spacer-5-top-sm-only">
+        <div class="jamboard-pillars-1-jamboard-pillar-2-share-ideas-in-brainstorms">
+          <a id="jamboard-pillar-2-share-ideas-in-brainstorms"></a>
+          <div class="gfe-copy-intro gfe-mod-text- gfe-pillar">
+            <div class="gfe-icon__wrapper">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
       
       <div id="box2">
-        <p>커뮤니티</p>
+        <svg width="82" height="44" viewBox="0 0 82 44" xmlns="http://www.w3.org/2000/svg">
+          <g fill="none" fill-rule="evenodd">
+            <path d="M0-9h88.653v61H0z"></path>
+            <path d="M81.123 25.697c.03-.04.054-.082.078-.124l.016-.026c0-.003.003-.005.003-.008a.999.999 0 00.075-.184c.013-.052.021-.104.03-.157l.002-.029a.964.964 0 00.003-.197c-.003-.005-.003-.007-.003-.013-.003-.013-.008-.029-.01-.044a1.124 1.124 0 00-.025-.131c-.003-.008-.005-.019-.01-.027 0-.005 0-.008-.003-.013-.006-.018-.014-.031-.022-.047a1.282 1.282 0 00-.035-.092c-.008-.01-.013-.023-.021-.034a.778.778 0 00-.038-.063c-.013-.02-.027-.044-.043-.065-.01-.014-.021-.024-.032-.037l-.048-.055-.049-.05c-.013-.013-.03-.024-.045-.037-.019-.016-.035-.031-.057-.044-.016-.014-.032-.024-.048-.037a.899.899 0 01-.062-.032c-.021-.013-.043-.023-.064-.034-.01-.005-.019-.013-.03-.018L26.812.849a1.104 1.104 0 00-1.355.402l-10.11 15.492a1.047 1.047 0 00-.065 1.023c.158.33.48.559.848.603l44.37 5.378-48.42-.64c-.472.01-.724.179-.926.486L.174 40.254c-.238.36-.23.821.014 1.175a1.104 1.104 0 001.114.441l22.472-4.473 2.168 5.008a1.089 1.089 0 001.337.596l53.302-16.919c.002 0 .002-.002.005-.002.016-.006.032-.014.048-.019.02-.008.038-.016.06-.023.026-.014.05-.024.077-.037l.038-.024.048-.031a1.955 1.955 0 00.116-.087 1.165 1.165 0 00.107-.11c.01-.013.021-.024.03-.037l.013-.015zM26.785 3.164l46.27 19.967-54.95-6.664 8.68-13.303zm-14.13 22.073l57.483.764-45.921 9.14h-.003L3.395 39.286l9.26-14.049zm13.293 11.727l35.714-7.11-34.107 10.828-1.607-3.718z" fill="#1A73E8" fill-rule="nonzero"></path>
+          </g>
+        </svg>
+        <div class="gfe-head-intro gfe-mod-spacer-2-top" style="margin-top: 40;">
+          <h2 class="gfe-headline gfe-headline--headline-5 gfe-head-intro__headline ">커뮤니티</h2>
+        </div>
+        <p class="gfe-body gfe-mod-spacer-2-top">
+          Farm in Sun 웹 서비스 내 커뮤니티 기능을 사용하여 서로에게 필요한 정보를 주고 받을 수 있습니다
+          식물에 대한 궁금한 점이 있거나 식물 일지를 서로 공유해 식물 키우기 업그레이드를 해보세요
+
+        </p>
+        <div class="gfe-grid__col--span-12-sm gfe-grid__col--span-6-md gfe-grid__col--span-4-lg gfe-grid__col--span-4-xl gfe-mod-spacer-5-top-sm-only gfe-mod-spacer-5-top-md-only">
+          <div class="jamboard-pillars-1-jamboard-pillar-3-students-can-jam-from-anywhere">
+            <a id="jamboard-pillar-3-students-can-jam-from-anywhere"></a>
+            <div class="gfe-copy-intro gfe-mod-text- gfe-pillar">
+              <div class="gfe-icon__wrapper">
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div id="box3">
-        <ion-icon name="bulb-outline"></ion-icon>
-        <p>생육 환경</p>
+        <svg width="68" height="47" viewBox="0 0 68 47" xmlns="http://www.w3.org/2000/svg">
+          <g fill="none" fill-rule="evenodd">
+            <path d="M0-7h88.653v61H0z"></path>
+            <path d="M54.933 42.613h3.66V40.5h-3.66v2.114zm-6.1 1.546H64.61V15.203H48.833V44.16zM47.53 12.6h18.382c.731 0 1.3.57 1.3 1.302V45.54c0 .732-.569 1.302-1.3 1.302H47.53c-.731 0-1.302-.57-1.302-1.302V13.903c0-.732.57-1.302 1.302-1.302zM.195 46.192c-.244-.407-.244-.895-.082-1.301L5.97 33.097V1.621C5.97.89 6.54.32 7.271.32h47.662c.731 0 1.3.57 1.3 1.301v6.832c0 .732-.569 1.302-1.3 1.302-.733 0-1.302-.57-1.302-1.302V3.004H8.653v29.199H42c.733 0 1.302.569 1.302 1.301s-.57 1.301-1.302 1.301H8.166L3.448 44.24h21.553l.895-1.79c.244-.487.65-.731 1.22-.731h8.133c.488 0 .977.325 1.22.732l.895 1.789h5.043c.733 0 1.302.57 1.302 1.301 0 .732-.57 1.302-1.302 1.302H1.496c-.65 0-1.056-.244-1.301-.651z" fill="#1A73E8" fill-rule="nonzero">
+            </path>
+          </g>
+        </svg>
+        <div class="gfe-head-intro gfe-mod-spacer-2-top" style="margin-top: 31;">
+          <h2 class="gfe-headline gfe-headline--headline-5 gfe-head-intro__headline ">식물 환경 예측</h2>
+        </div>
+        <p class="gfe-body gfe-mod-spacer-2-top">
+          Farm in Sun 웹 서비스의 핵심인 스마트 AI 식물 환경 예측 프로그램을 사용해보세요<br>
+          키우고 있는 식물의 사진을 등록하면 잘 자랄 수 있는 환경을 제공해 드립니다.
+          또한 AI가 업로드한 사진이 같은 종의 식물과 비교해 현재 얼마큼 자랐는지, 얼마나 자랄 수 있는지 
+          예측이 가능합니다. AI 서비스를 사용한다면 누구나 쉽게 식물을 키울 수 있습니다
+        </p>
       </div>
-    </div>
+    </div> <!-- SERVICE 끝-->
 
+    <hr style="margin-top: 140px;">
+
+    <!-- contact us 시작 -->
+    <div style="max-width: 1000; margin: 0 auto;">
+      <div class="mb-3" style="margin-top: 100;" id="contact">
+        <h2>contact us</h2>
+        <br>
+        <label for="exampleFormControlInput1" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+      </div>
+      <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Message</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+      </div>
+      <button type="button" class="btn btn-success">submit</button>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br> <!-- contact us 끝 -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
