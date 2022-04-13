@@ -4,6 +4,11 @@ from flask import session
 import db
 from datetime import timedelta
 from werkzeug.utils import secure_filename
+from datetime import datetime
+now=datetime.now()
+nowDatetime = now.strftime('%Y%m%d%H%M%S')
+
+
 bp = Blueprint('user', __name__, url_prefix='/user')
 
 # 로그인 후 이동하는 페이지
@@ -22,7 +27,6 @@ def myplant():
     if "userid" in session:
         if request.method=='GET':
             result=db.rend_myplant(session['userid'])
-            print(result[0])
             return render_template('user/myplant.html',userName=session['userid'],plants=result)
         else: # 사진등록시,
             print('등록 post 모드')
@@ -30,9 +34,9 @@ def myplant():
             plantname=request.form['plantname']
             memo=request.form['memo']
             f=request.files['img']
-            print(f)
-            f.save('static/userimages/' + secure_filename(f.filename))
-            result=db.create_myplant(session['username'],session['userid'],plantname,memo)
+            imgpath='static/imgdb/' +session['userid']+"/"+nowDatetime+"_"+f.filename
+            f.save(imgpath)
+            result=db.create_myplant(session['username'],session['userid'],plantname,nowDatetime+"_"+f.filename,memo)
             if result=="성공":
                 return render_template('alert/add_success.html')
             else:

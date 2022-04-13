@@ -107,43 +107,47 @@ h2 {
 
 </style>
 <div class="content-wrapper">
-  <!-- Content Header (Page header) -->
   <section class="content-header">
     <div class="container-fluid">
       <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1>성장일기</h1>
+       <div class="col-sm-6">
+         <h1>성장일기</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
-            <div class="text-center">
-              <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalLoginForm">식물등록</a>
-            </div>
+            <li class="breadcrumb-item">             
+              <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalLoginForm">식물등록</a></li>
           </ol>
         </div>
-      </div>
-    </div><!-- /.container-fluid -->
+     </div>
+    </div>
   </section>
 
   <!-- Main content -->
   <section class="content">
     <div class="wrapper-grey padded">
       <div class="container">
-        <h2 class="text-center">Your next trip</h2>
+        <h2 class="text-center">나의 식물</h2>
+        {% if plants%}
         {% for plant in plants%}
           <div class="col-xs-12 col-sm-4">
-            <div class="card" style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)), url('https://i1.wp.com/handluggageonly.co.uk/wp-content/uploads/2015/05/IMG_2813-s.jpg?w=1600&ssl=1');">
+            <div class="card" style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)), url('/static/imgdb/{{userName}}/{{plant.imagepath}}');">
               <div class="card-category">{{plant.plant_name}}</div>
               <div class="card-description">
-                <h2>{{plant.joindate}}</h2>
+                <h2>대충 성장률? 들어갈곳</h2>
                 <p>{{plant.memo}}</p>
               </div>
-              <img class="card-user avatar avatar-large" src="https://github.com/lewagon/bootstrap-challenges/blob/master/11-Airbnb-search-form/images/anne.jpg?raw=true">
+              <img class="card-user avatar avatar-large" src="/static/imgdb/{{userName}}/{{plant.imagepath}}">
               <a class="card-link" href="#" ></a>
             </div>
           </div>
           {%endfor%}
-          
+          {% else %}
+          <!--식물이 하나도 등록되어 있지 않을때 작동하는 부분-->
+            <div>
+              <h4>식물을 등록해주세요!</h4>
+            </div>
+          {% endif %}
         </div>
       </div>
 

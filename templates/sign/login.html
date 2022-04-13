@@ -21,14 +21,17 @@
     <!-- /.login-logo -->
     <div class="card card-outline card-primary">
       <div class="card-header text-center">
-        <a href="/" class="h1"><b>Admin</b>LTE</a>
+        <a href="/" class="h1"><b>Farm</b>In<b>Sun</b></a>
       </div>
       <div class="card-body">
+        {% if stat%}
+        <p class="login-box-msg" style="color:red; font-size:15px;">회원가입이 완료되었습니다. 로그인해주세요.</p>
+        {% else%}
         <p class="login-box-msg">로그인 후 사이트 이용 가능합니다.</p>
-
+        {%endif%}
         <form method="post">  <!--액션제외하면 현재페이지주소로 요청이 감-->
           <div class="input-group mb-3">
-            <input type="text" name="id" class="form-control" placeholder="아이디">
+            <input type="text" name="id" class="form-control" placeholder="id">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
@@ -36,7 +39,7 @@
             </div>
           </div>
           <div class="input-group mb-3">
-            <input type="password" name="pwd" class="form-control" placeholder="비밀번호">
+            <input type="password" name="pwd" class="form-control" placeholder="password">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-lock"></span>

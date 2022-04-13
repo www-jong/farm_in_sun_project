@@ -88,7 +88,7 @@ def rend_myplant(id):
     return result
 
 # 나의식물 등록(미완성)
-def create_myplant(master_name,master_id,plant_name,memo):
+def create_myplant(master_name,master_id,plant_name,imagepath,memo):
     result = None
     try:
         connection = pymysql.connect(host=host,
@@ -101,10 +101,10 @@ def create_myplant(master_name,master_id,plant_name,memo):
                 # 쿼리중 오류가 나더라도, 커넥션은 정상적으로 닫아야 하므로 예외처리 추가
                 try:
                     sql = '''
-                        insert into plantdata(master_name,master_id,plant_name,memo) values (%s,%s,%s,%s);
+                        insert into plantdata(master_name,master_id,plant_name,imagepath,memo) values (%s,%s,%s,%s,%s);
                     '''
 
-                    cursor.execute(sql,(master_name,master_id,plant_name,memo))
+                    cursor.execute(sql,(master_name,master_id,plant_name,imagepath,memo))
                     connection.commit() # insert, update ,delete후 커밋이 필수
                     result = "성공"
                     #print(result)

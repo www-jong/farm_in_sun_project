@@ -1,9 +1,17 @@
+from venv import create
 from flask import Flask,render_template,request,jsonify,redirect,url_for,Blueprint
 from ml import predict_lang,trans_lang
 from flask import session
 import db,os
 from datetime import timedelta
 bp = Blueprint('sign', __name__, url_prefix='/sign')
+def createDirectory(directory): 
+    try: 
+        if not os.path.exists(directory): 
+            os.makedirs(directory) 
+    except OSError: 
+        print("Error: Failed to create the directory.")
+
 
 
 @bp.route('/logingo')
@@ -22,9 +30,11 @@ def login():
         
         return redirect(url_for('user.home'))
         """
-        id= request.args.get('id')
-        return render_template('sign/login.html')
-
+        stat=""
+        if request.args.get('join_status'):
+            return render_template('sign/login.html',stat="true")
+        else:
+            return render_template('sign/login.html')
     else:
         #get이 아니면 모두 post 
         id=request.form['id']
@@ -56,17 +66,15 @@ def join():
         username=request.form['username']
         id=request.form['id']
         pwd=request.form['pwd']
-        print(id)
         if pwd=="" or username=="" or id=="":
             return render_template('/alert/join_error.html')
         # 디비 로그인 체크
         result=db.create_join(username,id,pwd)
         if result:
             #print(session['userid'])
-            print(os.path)
-            os.makedirs('/static/userimages/'+id)
+            createDirectory(os.getcwd()+"/static/imgdb/"+id)
             # 만약, url이 변경되더라도, 변경되는 지점 이외에는 다른 부분은 수정할 필요가 없다.
-            return redirect(url_for('sign.login'))
+            return redirect(url_for('sign.login',join_status='true'))
         else:
             # 회원가입 에러 띄우기
                 return render_template('/alert/join_error.html')
