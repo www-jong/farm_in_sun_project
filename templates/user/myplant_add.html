@@ -1,0 +1,36 @@
+<!-- 모든사이트는 특별하지 않는 이상 반복적인 패턴으로 조립이 된것이다. -->
+<!-- 화면구성요소를 쪼개서 조립해 하나의 페이지가 완성되도록 구성한다. -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% include "com/head.html" ignore missing%}
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+
+
+
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+  
+  <div class="wrapper">
+
+    {% include "com/preloader.html" %}
+    {% include "com/navibar.html" %}
+    {% include "com/sidebar.html" %}
+
+    {% include "pages/myplant_add-detail.html" %}
+    {% include "com/copyright.html" %}
+    {% include "com/right.html" %}
+  </div>
+  <!-- ./wrapper -->
+
+  {% include "com/foot.html" %}
+  <script src="/static/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
+  <script src="/static/plugins/filterizr/jquery.filterizr.min.js"></script>
+
+</body>
+
+</html>

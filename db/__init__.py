@@ -50,8 +50,61 @@ def create_join(username,id,pwd):
                     sql = '''
                         insert into userdata(username,id,pwd) values (%s,%s,%s);
                     '''
-                    print("%s %s %s @@@@"%(username,id,pwd))
                     cursor.execute(sql,(username,id,pwd))
+                    connection.commit() # insert, update ,delete후 커밋이 필수
+                    result = "성공"
+                    #print(result)
+                except Exception as e1:
+                    print(e1)
+                    result=None
+    except Exception as e:
+        print(e)
+        result=None
+    return result
+
+def rend_myplant(id):
+    result = None
+    try:
+        connection = pymysql.connect(host=host,
+                                    user=user,
+                                    password=password,
+                                    database=database,
+                                    cursorclass=pymysql.cursors.DictCursor)
+        with connection:
+            with connection.cursor() as cursor:
+                # 쿼리중 오류가 나더라도, 커넥션은 정상적으로 닫아야 하므로 예외처리 추가
+                try:
+                    sql = '''
+                        select * from plantdata where master_id=%s;
+                    '''
+                    cursor.execute(sql,(id))
+                    result = cursor.fetchall()
+                except Exception as e1:
+                    print(e1)
+                    result=None
+    except Exception as e:
+        print(e)
+        result=None
+    return result
+
+# 나의식물 등록(미완성)
+def create_myplant(master_name,master_id,plant_name,memo):
+    result = None
+    try:
+        connection = pymysql.connect(host=host,
+                                    user=user,
+                                    password=password,
+                                    database=database,
+                                    cursorclass=pymysql.cursors.DictCursor)
+        with connection:
+            with connection.cursor() as cursor:
+                # 쿼리중 오류가 나더라도, 커넥션은 정상적으로 닫아야 하므로 예외처리 추가
+                try:
+                    sql = '''
+                        insert into plantdata(master_name,master_id,plant_name,memo) values (%s,%s,%s,%s);
+                    '''
+
+                    cursor.execute(sql,(master_name,master_id,plant_name,memo))
                     connection.commit() # insert, update ,delete후 커밋이 필수
                     result = "성공"
                     #print(result)

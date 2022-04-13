@@ -1,7 +1,7 @@
 from flask import Flask,render_template,request,jsonify,redirect,url_for,Blueprint
 from ml import predict_lang,trans_lang
 from flask import session
-import db
+import db,os
 from datetime import timedelta
 bp = Blueprint('sign', __name__, url_prefix='/sign')
 
@@ -15,8 +15,16 @@ def logingo():
 def login():
     session.clear()
     if request.method=='GET':
+        #임시 자동로그인
+        """
+        session['userid']='test'
+        session['username']='name'
+        
+        return redirect(url_for('user.home'))
+        """
         id= request.args.get('id')
         return render_template('sign/login.html')
+
     else:
         #get이 아니면 모두 post 
         id=request.form['id']
@@ -25,6 +33,7 @@ def login():
         result=db.select_login(id,pwd)
         if result:
             session['userid']=result['id']
+            session['username']=result['username']
             print(session['userid'])
             # 만약, url이 변경되더라도, 변경되는 지점 이외에는 다른 부분은 수정할 필요가 없다.
             return redirect(url_for('user.home'))
@@ -54,7 +63,8 @@ def join():
         result=db.create_join(username,id,pwd)
         if result:
             #print(session['userid'])
-            print("패스")
+            print(os.path)
+            os.makedirs('/static/userimages/'+id)
             # 만약, url이 변경되더라도, 변경되는 지점 이외에는 다른 부분은 수정할 필요가 없다.
             return redirect(url_for('sign.login'))
         else:

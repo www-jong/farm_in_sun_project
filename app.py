@@ -15,7 +15,7 @@ app.secret_key='너무나도보안적인시크릿키'
 @app.before_request
 def make_session_permanent(): #세션의 만료시간 설정 : 60분
     session.permanent = True
-    app.permanent_session_lifetime = timedelta(minutes=2)
+    app.permanent_session_lifetime = timedelta(minutes=20)
 
 
 @app.route('/',methods=['GET','POST']) # 초기화면
