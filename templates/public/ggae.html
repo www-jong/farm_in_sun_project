@@ -1,0 +1,106 @@
+<!-- 모든사이트는 특별하지 않는 이상 반복적인 패턴으로 조립이 된것이다. -->
+<!-- 화면구성요소를 쪼개서 조립해 하나의 페이지가 완성되도록 구성한다. -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {# incluede "삽입할 페이지" or ['','','',....]#}
+  {# ignore missing은 파일이 없을시, 무시처리함#}
+  {% include "com/head.html" ignore missing%}
+  <link rel="stylesheet" href="../../static/stylesheets/tip_style.css">
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+
+    {% include "com/preloader.html" %}
+    {% include "com/navibar.html" %}
+
+<section class="content">
+
+
+  <section class="light">
+    <div class="container py-2" style="margin: auto;">
+      
+      <div class="h1 text-center text-dark" id="pageHeaderTitle">
+        <img src="../../static/images/icon/ggae_icon.png" style="width:50px; height:auto;">
+        깻잎 재배 방법</div>
+        <img src="../../static/images/icon/ggae_icon.png" style="width:50px; height:auto;">
+  
+      <article class="postcard light blue">
+        <a class="postcard__img_link" href="#">
+            <img class="postcard__img" src="../../static/images/temper_tip1.jpg" alt="Image Title" />
+        </a>
+        <div class="postcard__text t-dark">
+          <h1 class="postcard__title blue"><a href="#">온도</a></h1>
+          <div class="postcard__subtitle small">
+          </div>
+          <div class="postcard__bar"></div>
+          <div class="postcard__preview-txt">깻잎이 발아하기 위한 최적의 온도는 22°C 전후 입니다. 발아 후 20°C 전후로 서늘한 기후를 좋아하고 건조에는 약합니다!<br>
+            깻잎은 햇볕을 받을 수록 광합성 속도가 직선적으로 증하하여 여름의 고온기에 일사량이 많은 환경에서도 높은 생장속도를 유지합니다.
+        </div>
+          <ul class="postcard__tagbox">
+            <li class="tag__item"><i class="fas fa-tag mr-2"></i>깻잎과 온도</li>
+            <li class="tag__item"><i class="fas fa-clock mr-2"></i>22°C 전후, 발아 후 20°C</li>
+            <li class="tag__item play green">
+              <a href="#"><i class="fa-regular fa-lightbulb-on"></i>일사량이 많은 환경에서도 잘 자란다.</a>
+            </li>
+          </ul>
+        </div>
+      </article>
+      <article class="postcard light red">
+        <a class="postcard__img_link" href="#">
+          <img class="postcard__img" src="../../static/images/sang_tip.jpg" alt="Image Title" sizes="height=100px;"/>	
+        </a>
+        <div class="postcard__text t-dark">
+          <h1 class="postcard__title red"><a href="#">깻잎과 물</a></h1>
+          <div class="postcard__subtitle small">
+          </div>
+          <div class="postcard__bar"></div>
+          <div class="postcard__preview-txt">깻잎은 발아 전에는 일주일에 2번 정도 물을 주고 발아 후에는 일주일에 1번 정도만 물을 줄 정도로 건조에 강한 식물이다. 그렇다고 물을 너무 주지않는다면 시들 가능성이 있으므로 흙이 하얗게 된다면 물을 주도록 하자</div>
+          <ul class="postcard__tagbox">
+            <li class="tag__item"><i class="fas fa-tag mr-2"></i>깻잎과 물</li>
+            <li class="tag__item"><i class="fas fa-clock mr-2"></i>깻잎은 건조에 강하다</li>
+            <li class="tag__item play green">
+              <a href="#"><i class="fa-regular fa-lightbulb-on"></i>흙이 하얗게 변할 때 물을 주도록하자</a>
+            </li>
+          </ul>
+        </div>
+      </article>
+      <article class="postcard light green">
+        <a class="postcard__img_link" href="#">
+          <img class="postcard__img" src="../../static/images/soil_tip.jpg" alt="Image Title" />
+        </a>
+        <div class="postcard__text t-dark">
+          
+          <h1 class="postcard__title green"><a href="#">깻잎과 토양</a></h1>
+          <div class="postcard__subtitle small">
+          </div>
+          <div class="postcard__bar"></div>
+          <div class="postcard__preview-txt">토양은 그다지 가리지는 않아요. 촉촉한 정도로 물기가 있는 토양이면 좋다. 씨는 10x5cm 간격으로 5,6입 정도를 넣고 얕게 묻으면 돼요</div>
+          <ul class="postcard__tagbox">
+            <li class="tag__item"><i class="fas fa-tag mr-2"></i>깻잎과 토양</li>
+            <li class="tag__item"><i class="fas fa-clock mr-2"></i>토양은 가리지 않아요</li>
+            <li class="tag__item play green">
+              <a href="#"><i class="fas fa-play mr-2"></i>햇볕을 잘 받을 수 있는 토양이면 좋다</a>
+            </li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </section>
+
+</section>
+    
+
+    {% include "com/copyright.html" %}
+    {% include "com/right.html" %}
+  </div>
+  <!-- ./wrapper -->
+
+  {% include "com/foot.html" %}
+</body>
+
+
+<p>이미지 출처 : <a href='https://kr.freepik.com/photos/floral'>Floral 사진는 freepik - kr.freepik.com가 제작함</a></p>
+</html>
