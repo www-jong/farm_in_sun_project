@@ -10,6 +10,17 @@ bp = Blueprint('public', __name__, url_prefix='/public')
 def tip():
   return render_template('/public/tip.html', userName="사용자명")
 
+@bp.route('/sang')
+def sang():
+  return render_template('/public/sang.html', userName="사용자명")
 
+@bp.route('/chung')
+def chung():
+  return render_template('/public/chung.html', userName="사용자명")
+
+
+@bp.route('/ggae')
+def ggae():
+  return render_template('/public/ggae.html', userName="사용자명")   
 
 

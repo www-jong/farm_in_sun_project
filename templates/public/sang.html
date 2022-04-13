@@ -7,6 +7,7 @@
   {# incluede "삽입할 페이지" or ['','','',....]#}
   {# ignore missing은 파일이 없을시, 무시처리함#}
   {% include "com/head.html" ignore missing%}
+  <link rel="stylesheet" href="../../static/stylesheets/tip_style.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -14,9 +15,80 @@
 
     {% include "com/preloader.html" %}
     {% include "com/navibar.html" %}
-    {% include "com/sidebar.html" %}
+
+<section class="content">
 
 
+  <section class="light">
+    <div class="container py-2" style="margin: auto;">
+      <div class="h1 text-center text-dark" id="pageHeaderTitle">
+        <img src="../../static/images/icon/sang_icon.png" style="width:50px; height:auto;">
+        상추 재배 방법
+        <img src="../../static/images/icon/sang_icon.png" style="width:50px; height:auto;">
+      </div>
+  
+      <article class="postcard light blue">
+        <a class="postcard__img_link" href="#">
+          <img class="postcard__img" src="../../static/images/temper_tip1.jpg" alt="Image Title" />
+        </a>
+        <div class="postcard__text t-dark">
+          <h1 class="postcard__title blue"><a href="#">온도</a></h1>
+          <div class="postcard__subtitle small">
+          </div>
+          <div class="postcard__bar"></div>
+          <div class="postcard__preview-txt">호냉성인 상추는 냉량한 기후를 좋아해요! 발아와 키우기 좋은 온도가 15~20°C입니다. 결구(속이 차 속이 둥글게 드는)상추의 적정 온도는 10~16°C예요. 30°C 이상의 고온, 5°C 이하의 저온에서는 발아가 거의 되지 않아요! 잎의 분화는 주간보다는 야간온도에 영향을 더 많이 받는 편입니다. 10~15°C가 적당하고 이보다 낮거나 높으면 분화가 잘 이루어지지 않아요!</div>
+          <ul class="postcard__tagbox">
+            <li class="tag__item"><i class="fas fa-tag mr-2"></i>상추와 온도</li>
+            <li class="tag__item"><i class="fas fa-clock mr-2"></i>15~20°C</li>
+            <li class="tag__item play green">
+              <a href="#"><i class="fa-regular fa-lightbulb-on"></i>밤온도는 10~15°C</a>
+            </li>
+          </ul>
+        </div>
+      </article>
+      <article class="postcard light red">
+        <a class="postcard__img_link" href="#">
+          <img class="postcard__img" src="../../static/images/sang_tip.jpg" alt="Image Title" sizes="height=100px;"/>	
+        </a>
+        <div class="postcard__text t-dark">
+          <h1 class="postcard__title red"><a href="#">상추와 물</a></h1>
+          <div class="postcard__subtitle small">
+          </div>
+          <div class="postcard__bar"></div>
+          <div class="postcard__preview-txt">상추와 물은 아주 친숙한 관계입니다. 물속에서도 발아를 하고 다습한 조건에서 잘 적응하는 편이죠. 거기다 잎의 분화와 생육속도 또한 빨라집니다. <br>
+             상추는 일반적으로 10mm정도의 물을 제공해야 하며, 겨울에는 7~10일 간격, 봄/가을에는 3~5일 간격, 여름에는 2~3일 간격으로 물을 주는 것이 좋습니다.</div>
+          <ul class="postcard__tagbox">
+            <li class="tag__item"><i class="fas fa-tag mr-2"></i>상추와 물</li>
+            <li class="tag__item"><i class="fas fa-clock mr-2"></i>물은 10mm</li>
+            <li class="tag__item play green">
+              <a href="#"><i class="fa-regular fa-lightbulb-on"></i>계절에 따라 간격을 달리 주기!</a>
+            </li>
+          </ul>
+        </div>
+      </article>
+      <article class="postcard light green">
+        <a class="postcard__img_link" href="#">
+          <img class="postcard__img" src="../../static/images/soil_tip.jpg" alt="Image Title" />
+        </a>
+        <div class="postcard__text t-dark">
+          <h1 class="postcard__title green"><a href="#">상추와 토양</a></h1>
+          <div class="postcard__subtitle small">
+          </div>
+          <div class="postcard__bar"></div>
+          <div class="postcard__preview-txt">상추 재배하는 토양은 pH 6.5~7.0 정도가 좋습니다. 보수력이 좋고 배수가 좋은 모래참을 사용하는 것이 좋다. 상추는 인산이 다른 작물에 비해 중요하므로 인산질 비료가 충분해야만 엽수의 분화가 빠르고 잎의 무게가 많이 나가게 됩니다.</div>
+          <ul class="postcard__tagbox">
+            <li class="tag__item"><i class="fas fa-tag mr-2"></i>상추와 토양</li>
+            <li class="tag__item"><i class="fas fa-clock mr-2"></i>흙은 pH 6.5~7.0</li>
+            <li class="tag__item play green">
+              <a href="#"><i class="fas fa-play mr-2"></i>인산질 비료를 준다면 더 잘 자랄 거에요!</a>
+            </li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </section>
+
+</section>
     
 
     {% include "com/copyright.html" %}
@@ -27,4 +99,6 @@
   {% include "com/foot.html" %}
 </body>
 
+
+<p>이미지 출처 : <a href='https://kr.freepik.com/photos/floral'>Floral 사진는 freepik - kr.freepik.com가 제작함</a></p>
 </html>
