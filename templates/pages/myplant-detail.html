@@ -128,6 +128,7 @@ h2 {
     <div class="wrapper-grey padded">
       <div class="container">
         <h2 class="text-center">나의 식물</h2>
+
         {% if plants%}
         {% for plant in plants%}
           <div class="col-xs-12 col-sm-4">
@@ -135,6 +136,7 @@ h2 {
               <div class="card-category">{{plant.plant_name}}</div>
               <div class="card-description">
                 <h2>대충 성장률? 들어갈곳</h2>
+
                 <p>{{plant.memo}}</p>
               </div>
               <img class="card-user avatar avatar-large" src="/static/imgdb/{{userName}}/{{plant.imagepath}}">
