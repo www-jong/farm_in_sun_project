@@ -6,6 +6,7 @@ from email.policy import default
 import queue,math
 from unittest import result
 from datetime import timedelta,datetime
+from flask_paginate import Pagination, get_page_parameter
 bp = Blueprint('public', __name__, url_prefix='/public')
 def createDirectory(directory): 
     try: 
@@ -32,48 +33,30 @@ def chung():
 
 @bp.route('/ggae')
 def ggae():
-  return render_template('/public/ggae.html', userName="사용자명")   
-
-
+  return render_template('/public/ggae.html', userName="사용자명")  
+ 
+@bp.route('/back')
+def back():
+  return render_template('/alert/back.html', userName="사용자명")  
+ 
+row_page=5
 # 커뮤니티 리스트
-@bp.route('/community')
+@bp.route('/community',methods=['GET','POST'])
 def community():
   if "userid" in session:
-    result=db.rend_communuty()
-
-    # # 페이지 값 (디폴트값 = 1)
-    # page = request.args.get("page",1,type=int)
-    # # 한 페이지 당 몇개의 게시물 출력
-    # limit = 10
-
-    # # 컬렉션 모두 가져옴
-    # datas = result.find({}).skip((page -1) * limit).limit(limit)
-
-    # # 게시물 총 개수 세기
-    # tot_count = result.find({}).count()
-    # # 마지막 페이지의 수 구하기
-    # last_page_num = math.ceil(tot_count / limit) # 반올림
-
-    # # 페이지 블럭 5개씩 표기
-    # block_size = 5
-    # # 현재 블럭의 위치 (첫 번째 블럭이라면, block_num = 0)
-    # block_num = int((page - 1) / block_size)
-    # # 현재 블럭의 맨 처음 페이지 넘버 (첫 번째 블럭이라면, block_start = 1, 두 번째 블럭이라면, block_start = 6)
-    # block_start = (block_size * block_num) + 1
-    # # 현재 블럭의 맨 끝 페이지 넘버 (첫 번째 블럭이라면, block_end = 5)
-    # block_end = block_start + (block_size - 1)
-    # return render_template(
-    #     "/public/community.html",
-    #     datas=datas,
-    #     limit=limit,
-    #     page=page,
-    #     block_start=block_start,
-    #     block_end=block_end,
-    #     last_page_num=last_page_num,
-    #     userName=session['userid'],
-    #     community_list=result)
-    return render_template('/public/community.html', userName=session['userid'], community_list=result)
-
+    if request.method=='GET':   
+      page=request.args.get('page',default=1,type=int) # 페이지
+      result=db.rend_communuty()
+      limit=5 # 한페이지에 보일 게시글수
+      c_list=db.rend_community_paging(limit,page-1)
+      looks_page=5 # 최대 표시할 페이지수
+      total_cnt=len(result) # 총 게시글수
+      print("총 게시글수 %d"%(len(result)))
+      #pagination=rPagination(page=page,total=total_cnt,search="True",recode_name="community_list")
+      print('총 페이지수 %d'%(math.ceil(len(result)//5)))
+      return render_template('/public/community.html', userName=session['userid'],lp=looks_page//2 ,community_list=c_list,c_list=c_list,page=page,maxpage=math.ceil(1+len(result)//5))
+    else:
+      pass
   else:
     return redirect(url_for('login'))
 
@@ -83,6 +66,7 @@ def community_view():
   if "userid" in session:
     if request.method=='GET':  # 해당게시글 클릭시,  
       idx = request.args.get('idx', type = str)
+      page = request.args.get('page', type = int)
       print(idx)
       result=db.rend_communuty(idx)
       print(result)
@@ -92,7 +76,7 @@ def community_view():
       print(comments)
       likes=db.get_likes(idx)['num']
       return render_template('/public/community_view.html', userName=session['userid'],
-                                                         article=result,nickname=nickname,comments=comments,likes=likes)
+                                                         article=result,nickname=nickname,comments=comments,likes=likes,page=page)
     else: # 댓글 등록시, 
       a_idx=request.form['articlenum']
       id=session['userid']
@@ -118,7 +102,10 @@ def community_write():
         f=request.files['img']
         imgpath='static/communitydb/' +nowDatetime2+"/"+nowDatetime+"_"+session['userid']+"_"+f.filename
         createDirectory(os.getcwd()+"/static/communitydb/"+nowDatetime2)
-        f.save(imgpath)
+        if imgpath[-1]!="_":
+          print("^"*20)
+          print(imgpath)
+          f.save(imgpath)
         result=db.create_community(session['userid'],title,content,nowDatetime2+'/'+nowDatetime+"_"+session['userid']+"_"+f.filename)
         if result:
           result=db.rend_communuty()
@@ -138,6 +125,7 @@ def community_modify():
       #result=db.modify_community(session['userid'])
       return render_template('/public/community_modify.html', userName=session['userid'],result=result)
     else: # 수정적용시,
+      idx=request.form['idx']
       title=request.form['title']
       content=request.form['content']
       f=request.files['img']
@@ -145,10 +133,24 @@ def community_modify():
       imgpath='static/communitydb/' +nowDatetime2+"/"+nowDatetime+"_"+session['userid']+"_"+f.filename
       createDirectory(os.getcwd()+"/static/communitydb/"+nowDatetime2)
       f.save(imgpath)        
-      result=db.modify_community(session['userid'],title,content,nowDatetime2+'/'+nowDatetime+"_"+session['userid']+"_"+f.filename)
-      if beforefile: # 이전에 이미 사진이 등록되어있었다면, 사진삭제
-        os.remove(os.getcwd()+"/static/communitydb/"+beforefile)
-      return "dd"
+      result=db.modify_community(idx,title,content,nowDatetime2+'/'+nowDatetime+"_"+session['userid']+"_"+f.filename)
+      print("-"*20)
+      print(beforefile)
+      if beforefile!="None": # 이전에 이미 사진이 등록되어있었다면, 사진삭제
+          os.remove(os.getcwd()+"/static/communitydb/"+beforefile)
+      return redirect(url_for('public.community_view',idx=idx)) 
+  else:
+    return redirect(url_for('login')) 
+
+# 게시글 삭제
+@bp.route('/community_delete')
+def community_delete():
+  if "userid" in session:
+    idx = request.args.get('idx', type = str)
+    result=db.delete_community(idx)
+    print("*삭제"*25)
+    print(result)
+    return redirect(url_for('public.community',res="삭제성공"))
   else:
     return redirect(url_for('login')) 
 

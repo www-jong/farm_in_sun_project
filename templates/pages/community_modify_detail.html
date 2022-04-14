@@ -19,13 +19,13 @@
             display: block;
         }
         </style>
-
         <div class="card text-center" id="card" style="margin-top: 100px;">
             <br>
             <h3>게시글 수정</h3>
             <form method="post" enctype="multipart/form-data">
             <div class="card-body">
                 <div class="mb-3" style="margin-top:10px;">
+                    <input type='hidden' name="idx" value="{{result.idx}}"/>
                     <label for="title">제목</label>
                     <input type="text" class="form-control" style="margin: auto; height: 50px; width: 800px;" name="title" id="title" placeholder="{{result.title}}">
                 </div>

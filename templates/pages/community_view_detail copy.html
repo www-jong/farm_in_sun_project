@@ -24,13 +24,6 @@
                               <p class="small text-muted mb-0">{{article.uploaddate}}</p>
                             </div>
                           </div>
-                          <!--센터 추가한 부분-->
-                          <div class="d-flex justify-content-center align-items-center">
-                            <div class="d-flex flex-column pl-3">
-                              <!-- 제목 -->
-                              <p  class="font-weight-normal mb-0">{{article.title}}</p>
-                            </div>
-                          </div>
                           <ul class="list-unstyled d-flex align-items-center text-muted mb-0">
                             <li>
                               <a>
@@ -51,7 +44,8 @@
                           <p class="my-4">{{article.content}}</p>
                           <div class="d-flex justify-content-between align-items-center">
                             <div class="d-flex flex-row">
-                              <button type="button" onclick="location.href='{{url_for('public.likey', idx=article.idx)}}'" class="btn btn-light btn-sm py-1 px-2 m-0 mr-2"><i class="far fa-thumbs-up pr-1"></i> Like</button>
+                              <button type="button" onclick="location.href='{{url_for('public.likey', idx=article.idx)}}'" class="btn btn-fb btn-sm py-1 px-2 m-0 mr-2"><i class="far fa-thumbs-up pr-1"></i> Like</button>
+                              <button type="button" class="btn btn-light btn-sm py-1 px-2 m-0 mr-2"><i class="fas fa-share pr-1"></i> Share</button>
                             </div>
                             <!-- 좋아요인데 빼도 되여 -->
                             <div class="d-flex flex-column pl-3">
@@ -63,11 +57,11 @@
                         <div class="py-4 grey lighten-4">
                           {%for comment in comments%}
                           <div class="px-3">
-                            <img src={%if comment.userimage|length <3%}"/static/images/defaultimg.png"{%else%}{{comment.userimage}}{%endif%} class="z-depth-1 rounded-circle float-left" width="40" alt="avatar image">
+                            <img src="/static/images/icon/ggae_icon.png" class="z-depth-1 rounded-circle float-left" width="40" alt="avatar image">
                             <div class="d-flex flex-column pl-3">
                               <div class="">
-                                <!-- 댓글 작성자  프로필 사진 부분-->
-                              <a href="" class="font-weight-normal mb-0">{{comment.username}}</a>
+                                <!-- 댓글 작성자 프로필 링크는 프로필 사진-->
+                                <a href="static/images/icon/ggae_icon.png" class="font-weight-normal mb-0">{{comment.username}}</a>
                                 <p class="small text-muted float-right mb-0">{{comment.uploaddate}}</p>
                               </div>
                               <p class="font-weight-light dark-grey-text mb-0">{{comment.content}}</p>
@@ -98,13 +92,14 @@
                   
                   <!-- 수정/삭제 버튼 (로그인 세션 필요, 동일한 계정만 수정 삭제 할 수 있게 또는 보이게)-->
                   <div style="margin-top: -10px">
-                    <a href="{{url_for('public.community',page=page)}}" style="margin-right: 10px;">
+                    <a href="/public/community" style="margin-right: 10px;">
                       <button type="button" class="btn btn-outline-secondary">게시글 목록</button>
                   </a>
                   {% if article.id == userName%}
                     <a href="{{url_for('public.community_modify', idx=article.idx)}}" style="margin-right: 10px;">
                         <button type="button" class="btn btn-outline-secondary">게시글 수정</button>
                     </a>
+
                       <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#exampleModalCenter">
                         게시글 삭제
                       </button>
@@ -124,7 +119,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-        <a href="{{url_for('public.community_delete', idx=article.idx)}}">
+        <a href="/public/community_delete">
         <button type="button" class="btn btn-primary">삭제</button>
       </a>
       </div>

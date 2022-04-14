@@ -214,7 +214,6 @@
             <!-- board list area -->
             <div id="board-list">
                 <div class="container">
-
                     <table class="board-table">
                         <thead>
                         <tr>
@@ -231,7 +230,7 @@
                         <tr>
                             <td>{{ i.idx }}</td>
                             <th>
-                                <a href={{url_for('public.community_view', idx=i.idx,page=page)}}>{{ i.title }}{%if i.comcount>0%}<span style="color:red;">[{{i.comcount}}]</span>{%endif%}</a>
+                                <a href={{url_for('public.community_view', idx=i.idx)}}>{{ i.title }}{%if i.comcount>0%}<span style="color:red;">[{{i.comcount}}]</span>{%endif%}</a>
                             </th>
                             <td>{{ i.uploaddate }}</td>
                             <td>{{ i.id }}</td>
@@ -240,7 +239,7 @@
                         </tr>
                         {% endfor %}
                         </tbody>
-                        <tr></tr>
+                        <tr>1, 2, 3, 4, 5</tr>
                         <div  style="float: right;">
                             <a href="/public/community_write">
                                 <button type="button" class="btn btn-outline-secondary">게시글작성</button>
@@ -248,17 +247,6 @@
                         </div>
                     </table>
                 </div>
-                <span><a href="{{url_for('public.community', page=1)}}">
-                    <button type="button" class="btn btn-outline-secondary"><<</button>
-                </a></span>
-                {%for i in range(1 if page<=1+lp else page-lp,1+(1+lp*2 if page<=1+lp else (page+lp if page<=maxpage-lp else maxpage)))%}
-                <span><a href="{{url_for('public.community', page=i)}}">
-                    <button type="button" class="btn btn-outline-secondary">{%if i==page%}<span style="color:red;">{{i}}</span>{%else%}{{i}}{%endif%}</button>
-                </a></span>
-                {%endfor%}
-                <span><a href="{{url_for('public.community', page=maxpage)}}">
-                    <button type="button" class="btn btn-outline-secondary">>></button>
-                </a></span>
             </div>
         </section>
 

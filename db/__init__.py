@@ -116,6 +116,35 @@ def create_myplant(master_name,master_id,plant_name,imagepath,memo):
         result=None
     return result
 
+
+
+
+# 페이징 구현
+def rend_community_paging(limit,page):
+    result = None
+    try:
+        connection = pymysql.connect(host=host,
+                                    user=user,
+                                    password=password,
+                                    database=database,
+                                    cursorclass=pymysql.cursors.DictCursor)
+        with connection:
+            with connection.cursor() as cursor:
+                # 쿼리중 오류가 나더라도, 커넥션은 정상적으로 닫아야 하므로 예외처리 추가
+                try:
+                    sql = '''
+                        select *,(select count(*) from commentdata where a_idx=a.idx) as comcount from communitydata a order by uploaddate desc LIMIT %s OFFSET %s;
+                    '''
+                    cursor.execute(sql,(limit,page*limit))
+                    result = cursor.fetchall()
+                except Exception as e1:
+                    print(e1)
+                    result=None
+    except Exception as e:
+        print(e)
+        result=None
+    return result
+
 # 게시판 리스트 DB 연동
 def rend_communuty(idx="None"):
     result = None
@@ -131,7 +160,7 @@ def rend_communuty(idx="None"):
                 try:
                     if idx=="None":
                         sql = '''
-                            select * from communitydata order by uploaddate desc;
+                            select *,(select count(*) from commentdata where a_idx=a.idx) as comcount from communitydata a order by uploaddate desc;
                         '''
                         cursor.execute(sql)
                         result = cursor.fetchall()
@@ -180,6 +209,35 @@ def create_community(id,title,content,filename):
                         cursor.execute(sql,(id,title,content,filename))
                     # print("%s %s %s %s %s @@@@"%(idx,id,title,content,filename))
 
+                    connection.commit() # insert, update ,delete후 커밋이 필수
+                    result = "성공"
+                    print(result)
+                except Exception as e1:
+                    print(e1)
+                    result=None
+    except Exception as e:
+        print(e)
+        result=None
+    return result
+
+# 게시판 글 작성 BD 연동
+def delete_community(idx):
+    result = None
+    try:
+        connection = pymysql.connect(host=host,
+                                    user=user,
+                                    password=password,
+                                    database=database,
+                                    cursorclass=pymysql.cursors.DictCursor)
+        with connection:
+            with connection.cursor() as cursor:
+                # 쿼리중 오류가 나더라도, 커넥션은 정상적으로 닫아야 하므로 예외처리 추가
+                try:
+                    sql = '''
+                        delete from communitydata where idx=%s;
+                    '''
+                    cursor.execute(sql,(idx))
+                    # print("%s %s %s %s %s @@@@"%(idx,id,title,content,filename))
                     connection.commit() # insert, update ,delete후 커밋이 필수
                     result = "성공"
                     print(result)
@@ -259,7 +317,7 @@ def getcomment(idx):
                 # 쿼리중 오류가 나더라도, 커넥션은 정상적으로 닫아야 하므로 예외처리 추가
                 try:
                     sql = '''
-                        select * from commentdata where a_idx=%s;
+                        select a.*,b.userimage from commentdata a , userdata b where a.a_idx=%s and a.id=b.id;
                     '''
                     cursor.execute(sql,(idx))
                     result = cursor.fetchall()
@@ -312,7 +370,7 @@ def likey(id,idx):
         result=None
     return result
 # 게시판 수정(미완성 수정.)
-def modify_community(id,title,content,filename):
+def modify_community(idx,title,content,filename):
     result = None
     try:
         connection = pymysql.connect(host=host,
@@ -326,16 +384,16 @@ def modify_community(id,title,content,filename):
                 try:
                     if filename[-1]=="_":
                         sql = '''
-                            update communitydata(id,title,content) values (%s,%s,%s);
+                            update communitydata set title=%s,content=%s,filename=null where idx=%s;
                         '''
-                        cursor.execute(sql,(id,title+"(수정)",content))
+                        cursor.execute(sql,(title+"(수정)",content,idx))
                     else:
                         sql = '''
-                            insert into communitydata(id,title,content,filename) values (%s,%s,%s,%s);
+                            update communitydata set title=%s,content=%s,filename=%s where idx=%s;
                         '''
-                        cursor.execute(sql,(id,title+"(수정)",content,filename))
+                        cursor.execute(sql,(title+"(수정)",content,filename,idx))
                     # print("%s %s %s %s %s @@@@"%(idx,id,title,content,filename))
-
+                    print("수정완료@@@@@@@@@@@@@@@@@@@@@")
                     connection.commit() # insert, update ,delete후 커밋이 필수
                     result = "성공"
                     print(result)
@@ -347,7 +405,7 @@ def modify_community(id,title,content,filename):
         result=None
     return result
 
-# 코멘트가져오기
+# 좋아요 적용
 def get_likes(idx):
     result = None
     try:
