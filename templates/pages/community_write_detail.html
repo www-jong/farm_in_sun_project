@@ -19,11 +19,10 @@
             display: block;
         }
         </style>
-
+            <form method="post" enctype="multipart/form-data">
         <div class="card text-center" id="card" style="margin-top: 100px;">
             <br>
             <h3>community</h3>
-
             <div class="card-body">
                 <div class="mb-3" style="margin-top:10px;">
                     <label for="title">제목</label>
@@ -33,18 +32,18 @@
                     <label for="content">내용</label>
                     <textarea class="form-control" rows="15" style="margin: auto; width: 800px;" name="content" id="content" placeholder="내용을 입력해 주세요" ></textarea>
                 </div>
-                <label class="form-label" for="customFile">사진을 첨부해 주세요</label>
-                <input type="file" class="form-control" id="customFile" style="margin: auto; width: 800px;" />
+                <label class="form-label" for="customFile" name="imgs">사진을 첨부해 주세요</label>
+                <input type="file" name="img" class="form-control" id="customFile" style="margin: auto; width: 800px;" />
             </div>
             <br>
             <div class="card-footer text-muted" style="background-color: rgb(87, 106, 96);"></div>
           </div>
           <br>
-            <div  class="button">
-                <a href="/public/community">
-                    <button type="button" class="btn btn-outline-secondary">게시글 등록</button>
-                </a>
-            </div>
+          <div  class="button">
+                  <button type="submit" class="btn btn-outline-secondary">게시글 등록</button>
+          </div>
+        </form>
+ 
 
 
 

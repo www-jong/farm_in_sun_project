@@ -1,13 +1,21 @@
 from flask import Flask,render_template,request,jsonify,redirect,url_for,Blueprint
 from ml import predict_lang,trans_lang
 from flask import session
-import db
+import db,os
 from email.policy import default
 import queue,math
 from unittest import result
-from datetime import timedelta
+from datetime import timedelta,datetime
 bp = Blueprint('public', __name__, url_prefix='/public')
-
+def createDirectory(directory): 
+    try: 
+        if not os.path.exists(directory): 
+            os.makedirs(directory) 
+    except OSError: 
+        print("Error: Failed to create the directory.")
+now=datetime.now()
+nowDatetime = now.strftime('%Y%m%d%H%M%S')
+nowDatetime2 = now.strftime('%Y%m%d')
 
 @bp.route('/tip')
 def tip():
@@ -31,7 +39,7 @@ def ggae():
 @bp.route('/community')
 def community():
   if "userid" in session:
-    result=db.rend_communuty(session['userid'])
+    result=db.rend_communuty()
 
     # # 페이지 값 (디폴트값 = 1)
     # page = request.args.get("page",1,type=int)
@@ -70,12 +78,31 @@ def community():
     return redirect(url_for('login'))
 
 # 게시글 리스트 글 보기  
-@bp.route('/community_view')
+@bp.route('/community_view',methods=['GET','POST'])
 def community_view():
   if "userid" in session:
-    result=db.rend_communuty(session['userid'])
-    #SSR수행시 값을 전달하는 방법
-    return render_template('/public/community_view.html', userName=session['userid'], community_list=result)
+    if request.method=='GET':  # 해당게시글 클릭시,  
+      idx = request.args.get('idx', type = str)
+      print(idx)
+      result=db.rend_communuty(idx)
+      print(result)
+      nickname=db.getnickname(idx)# 해당 게시글의 닉네임을 얻어오는 로직
+      print(nickname)
+      comments=db.getcomment(idx)
+      print(comments)
+      likes=db.get_likes(idx)['num']
+      return render_template('/public/community_view.html', userName=session['userid'],
+                                                         article=result,nickname=nickname,comments=comments,likes=likes)
+    else: # 댓글 등록시, 
+      a_idx=request.form['articlenum']
+      id=session['userid']
+      username=session['username']
+      content=request.form['comment']
+      result=db.comment_write(a_idx,id,username,content)
+      if result:
+        return render_template('alert/add_success.html')
+      else:
+        return render_template('alert/add_fail.html')
   else:
     return redirect(url_for('login'))
 
@@ -83,17 +110,59 @@ def community_view():
 @bp.route('/community_write', methods=['GET','POST'])
 def community_write():
   if "userid" in session:
-
-    result=db.create_community(session['userid'])
-    return render_template('/public/community_write.html', userName=session['userid'], community_list=result)
+    if request.method=='GET':
+      return render_template('/public/community_write.html', userName=session['userid'])
+    else:# 게시글 등록 시,
+        title=request.form['title']
+        content=request.form['content']
+        f=request.files['img']
+        imgpath='static/communitydb/' +nowDatetime2+"/"+nowDatetime+"_"+session['userid']+"_"+f.filename
+        createDirectory(os.getcwd()+"/static/communitydb/"+nowDatetime2)
+        f.save(imgpath)
+        result=db.create_community(session['userid'],title,content,nowDatetime2+'/'+nowDatetime+"_"+session['userid']+"_"+f.filename)
+        if result:
+          result=db.rend_communuty()
+          return render_template('/public/community.html', userName=session['userid'], community_list=result)
   else:
     return redirect(url_for('login'))
 
 # 게시글 수정
-@bp.route('/community_modify')
+@bp.route('/community_modify',methods=['GET','POST'])
 def community_modify():
   if "userid" in session:
-    result=db.modify_community(session['userid'])
-    return render_template('/public/community_modify.html', userName=session['userid'])
+    if request.method=='GET': # 수정창으로 이동
+      idx = request.args.get('idx', type = str)
+      result=db.rend_communuty(idx)
+      print("*"*25)
+      print(result)
+      #result=db.modify_community(session['userid'])
+      return render_template('/public/community_modify.html', userName=session['userid'],result=result)
+    else: # 수정적용시,
+      title=request.form['title']
+      content=request.form['content']
+      f=request.files['img']
+      beforefile=request.form['beforefilename']
+      imgpath='static/communitydb/' +nowDatetime2+"/"+nowDatetime+"_"+session['userid']+"_"+f.filename
+      createDirectory(os.getcwd()+"/static/communitydb/"+nowDatetime2)
+      f.save(imgpath)        
+      result=db.modify_community(session['userid'],title,content,nowDatetime2+'/'+nowDatetime+"_"+session['userid']+"_"+f.filename)
+      if beforefile: # 이전에 이미 사진이 등록되어있었다면, 사진삭제
+        os.remove(os.getcwd()+"/static/communitydb/"+beforefile)
+      return "dd"
+  else:
+    return redirect(url_for('login')) 
+
+# 좋아요!
+@bp.route('/likey')
+def likey():
+  if "userid" in session:
+    idx = request.args.get('idx', type = str)
+    result=db.likey(session['userid'],idx)
+    print("@@@@@@@@@@@@@@@@@@@@@@@@")
+    print(result)
+    if result=="on":
+      return render_template('alert/likey_on.html')
+    else:
+      return render_template('alert/likey_off.html')
   else:
     return redirect(url_for('login')) 

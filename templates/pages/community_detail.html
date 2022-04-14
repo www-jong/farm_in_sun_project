@@ -217,6 +217,8 @@
                             <th scope="col" class="th-title">제목</th>
                             <th scope="col" class="th-date">등록일</th>
                             <th scope="col" class="th-date">작성자</th>
+                            <th scope="col" class="th-date">추천수</th>
+                            <th scope="col" class="th-date">조회수</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -224,10 +226,12 @@
                         <tr>
                             <td>{{ i.idx }}</td>
                             <th>
-                                <a href="/public/community_view">{{ i.title }}</a>
+                                <a href={{url_for('public.community_view', idx=i.idx)}}>{{ i.title }}</a>
                             </th>
                             <td>{{ i.uploaddate }}</td>
                             <td>{{ i.id }}</td>
+                            <td>{{ i.likes }}</td>
+                            <td>{{ i.looks }}</td>
                         </tr>
                         {% endfor %}
                         </tbody>

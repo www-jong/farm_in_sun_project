@@ -1,4 +1,6 @@
-from datetime import datetime
-now=datetime.now()
-nowDatetime = now.strftime('%Y%m%d%H%M%S')
-print(nowDatetime)
+a={}
+a[1]=1
+a[2]=2
+a['dd']=3
+print(len(a))
+print(a.dd)
