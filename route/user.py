@@ -1,10 +1,16 @@
 from flask import Flask,render_template,request,jsonify,redirect,url_for,Blueprint
 from ml import predict_lang,trans_lang
 from flask import session
-import db
+import db,os
 from datetime import timedelta
 from werkzeug.utils import secure_filename
 from datetime import datetime
+def createDirectory(directory): 
+    try: 
+        if not os.path.exists(directory): 
+            os.makedirs(directory) 
+    except OSError: 
+        print("Error: Failed to create the directory.")
 now=datetime.now()
 nowDatetime = now.strftime('%Y%m%d%H%M%S')
 
@@ -35,6 +41,7 @@ def myplant():
             memo=request.form['memo']
             f=request.files['img']
             imgpath='static/imgdb/' +session['userid']+"/"+nowDatetime+"_"+f.filename
+            createDirectory(os.getcwd()+"/static/imgdb/"+session['userid'])
             f.save(imgpath)
             result=db.create_myplant(session['username'],session['userid'],plantname,nowDatetime+"_"+f.filename,memo)
             if result=="성공":
