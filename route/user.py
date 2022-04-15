@@ -52,14 +52,20 @@ def myplant():
         return redirect(url_for('login'))
 
 
-
-
-
-# 나의식물 등록페이지로 이동
-@bp.route('/myplantadd')
-def myplantadd():
+# 나의식물 페이지 리스트로 이동
+@bp.route('/myplantlist')
+def myplantlist():
     if "userid" in session:
         #SSR수행시 값을 전달하는 방법
-        return render_template('user/myplant_add.html',userName=session['userid'])
+        return render_template('user/myplant_list.html',userName=session['userid'])
     else:#세션정보 없을시, 
+        return redirect(url_for('login'))
+
+
+# 예측 파일 업로드
+@bp.route('/aiservice')
+def aiservice():
+    if "userid" in session:
+        return render_template('user/aiservice.html',userName=session['userid'])
+    else:
         return redirect(url_for('login'))

@@ -1,23 +1,69 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+    span {
+        font-family: 'Poppins', sans-serif;
+        color: black;
+        font-size: 20px;
+    }
+
+    #profile {
+        font-family: 'Poppins', sans-serif;
+        font-size: 15px;
+        float: right;
+        margin-top: 13px;
+        margin-right: 110px;
+        color: #8a8585;
+    }
+
+    #profileimage {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 30%;
+        margin-top: 20px;
+        margin-left: -5px;
+    }
+
+    #alist{
+        color: #8a8585;
+    }
+    #alist:hover{
+        color:#2E8B57;
+    }
+    
+</style>
+
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+<aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color: #F5F5F5;">
     <!-- Brand Logo -->
-    <a href="/" class="brand-link">
+    <a href="/" class="brand-link" style="border: #8a8585; margin-top: 20px;">
         <img src="/static/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-            style="opacity: .8">
-        <span class="brand-text font-weight-light">Farm_In_Sun</span>
+            style="opacity: .5; margin-right: 20px; margin-left: 11px;">
+        <span class="brand-text font-weight-light">Farm In Sun</span>
     </a>
+
+    <hr>
 
     <!-- Sidebar -->
     <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <!-- <div class="user-panel mt-3 pb-3 mb-3 d-flex"> -->
+        <div class="brand-link" style="border: #8a8585;">
             <div class="image">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                <a href="#">
+                    <img src="/static/dist/img/Penguin.png" class="img-circle elevation-2" alt="User Image"
+                        id="profileimage">
+                </a>
             </div>
             <div class="info">
-                <a href="#" class="d-block">{{ userName}}</a>
+                <a href="#" class="d-block" id="profile">{{userName}} 새싹회원</a>
             </div>
         </div>
+        <br>
+        <br>
+        <br>
+        <hr>
 
         <!-- SidebarSearch Form 
         <div class="form-inline">
@@ -36,13 +82,47 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                  with font-awesome or any other icon font library -->
-
-
                 <li class="nav-item">
-                    <a href="/user/myplant" class="nav-link">
+                    <a href="/user/myplantlist" class="nav-link" id=alist >
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             성장일기
+                            <span class="right badge badge-danger">New</span>
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/user/aiservice" class="nav-link" id=alist>
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            식물예측
+                            <span class="right badge badge-danger">New</span>
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" id=alist>
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            comming soon
+                            <span class="right badge badge-danger">New</span>
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" id=alist>
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            comming soon
+                            <span class="right badge badge-danger">New</span>
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" id=alist>
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            comming soon
                             <span class="right badge badge-danger">New</span>
                         </p>
                     </a>
