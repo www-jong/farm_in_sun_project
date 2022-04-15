@@ -35,7 +35,6 @@ def profiledit():
             elif db.select_login(session['userid'],bpwd) is None:
                 return render_template('alert/profiledit_notpasswd2.html')# 기존비밀번호 불일치
             else: # 저장하기
-                print("***&*&*"*10)
                 print(session['userimage'])
                 print(f.filename)
                 imgpath='static/userprofileimg/' +session['userid']+"/"+f.filename
@@ -103,11 +102,20 @@ def myplant():
 
 
 
-# 나의식물 등록페이지로 이동
-@bp.route('/myplantadd')
-def myplantadd():
+# 나의식물 페이지 리스트로 이동
+@bp.route('/myplantlist')
+def myplantlist():
     if "userid" in session:
         #SSR수행시 값을 전달하는 방법
-        return render_template('user/myplant_add.html',userName=session['userid'])
+        return render_template('user/myplant_list.html',userName=session['userid'])
     else:#세션정보 없을시, 
+        return redirect(url_for('login'))
+
+
+# 예측 파일 업로드
+@bp.route('/aiservice')
+def aiservice():
+    if "userid" in session:
+        return render_template('user/aiservice.html',userName=session['userid'])
+    else:#세션정보 있을시, 
         return redirect(url_for('login'))
