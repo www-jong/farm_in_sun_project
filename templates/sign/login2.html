@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Log in / Sign up</title>
+  
+  
+  
+      <link rel="stylesheet" href="../../static/stylesheets/login.css">
+      <link rel="stylesheet" href="../../static/stylesheets/loginstyle.css">
+
+  
+</head>
+
+<body>
+  <div class="container">
+  <div class="box"></div>
+  <div class="container-forms">
+    <div class="container-info">
+      <div class="info-item">
+        <div class="table">
+          <div class="table-cell">
+            <p>
+              계정이 있으신가요?
+            </p>
+            <div class="btn">
+              Log in
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="table">
+          <div class="table-cell">
+            <p>
+              계정이 없으신가요?
+            </p>
+            <div class="btn">
+             
+              Sign up
+            
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-form">
+      <div class="form-item log-in">
+        <div class="table">
+          <div class="table-cell">
+            <input name="Id" placeholder="Id" type="text" /><input name="Password" placeholder="Password" type="Password" />
+            <div class="btn" onclick="location.href='/user/home'">
+              Log in
+            </div>
+          </div>
+        </div>
+      </div>
+      <form name="form1" method="post">
+      <div class="form-item sign-up">
+        <div class="table">
+          <div class="table-cell">
+            <input name="Id" placeholder="Id" type="text" /><input name="Username" placeholder="Username" type="text" /><input name="Password" placeholder="Password" type="Password" />
+            <div id="btnLogin" class="btn" type="submit">
+
+              Sign up
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+  <script type="text/javascript" src="../../static/dist/js/logindex.js"></script>
+
+
+</body>
+</html>

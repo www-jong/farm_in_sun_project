@@ -19,6 +19,8 @@ def logingo():
     return render_template('sign/login.html')
 
 
+
+
 @bp.route('/login',methods=['GET','POST']) # 초기화면
 def login():
     session.clear()
@@ -44,6 +46,7 @@ def login():
         if result:
             session['userid']=result['id']
             session['username']=result['username']
+            session['userimage']=result['userimage']
             print(session['userid'])
             # 만약, url이 변경되더라도, 변경되는 지점 이외에는 다른 부분은 수정할 필요가 없다.
             return redirect(url_for('user.home'))
@@ -78,6 +81,7 @@ def join():
         else:
             # 회원가입 에러 띄우기
                 return render_template('/alert/join_error.html')
+
 
 
 @bp.route('/logout')

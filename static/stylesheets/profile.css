@@ -86,3 +86,7 @@ hr .new1 {
 .date {
     background-color: #ccc
 }
+
+.gallery img {
+    margin-right: 10px
+}
