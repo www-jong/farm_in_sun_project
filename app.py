@@ -25,7 +25,6 @@ def login():
     return render_template('intro.html')
 
 
-
 app.register_blueprint(public.bp)
 app.register_blueprint(sign.bp)
 app.register_blueprint(user.bp)

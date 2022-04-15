@@ -23,6 +23,7 @@ def home():
     if "userid" in session:
         #SSR수행시 값을 전달하는 방법
         return render_template('user/index.html',userName=session['userid'])
+<<<<<<< HEAD
     else:#세션정보 없을시, 
         return redirect(url_for('login'))
 
@@ -68,4 +69,7 @@ def aiservice():
     if "userid" in session:
         return render_template('user/aiservice.html',userName=session['userid'])
     else:
+=======
+    else:#세션정보 있을시, 
+>>>>>>> 46abe462be3abaa8f97f190e4996ddd56f9d8f81
         return redirect(url_for('login'))

@@ -1,3 +1,6 @@
+from email.policy import default
+import queue
+from unittest import result
 from flask import Flask,render_template,request,jsonify,redirect,url_for,Blueprint
 from ml import predict_lang,trans_lang
 from flask import session
@@ -6,6 +9,7 @@ from email.policy import default
 import queue,math
 from unittest import result
 from datetime import timedelta
+import math
 bp = Blueprint('public', __name__, url_prefix='/public')
 
 
@@ -13,6 +17,7 @@ bp = Blueprint('public', __name__, url_prefix='/public')
 def tip():
   return render_template('/public/tip.html', userName="사용자명")
 
+<<<<<<< HEAD
 @bp.route('/sang')
 def sang():
   return render_template('/public/sang.html', userName="사용자명")
@@ -20,8 +25,20 @@ def sang():
 @bp.route('/chung')
 def chung():
   return render_template('/public/chung.html', userName="사용자명")
+=======
+# 커뮤니티 리스트
+@bp.route('/community')
+def community():
+  if "userid" in session:
+    result=db.rend_communuty(session['userid'])
+>>>>>>> 46abe462be3abaa8f97f190e4996ddd56f9d8f81
 
+    # # 페이지 값 (디폴트값 = 1)
+    # page = request.args.get("page",1,type=int)
+    # # 한 페이지 당 몇개의 게시물 출력
+    # limit = 10
 
+<<<<<<< HEAD
 @bp.route('/ggae')
 def ggae():
   return render_template('/public/ggae.html', userName="사용자명")   
@@ -38,6 +55,8 @@ def community():
     # # 한 페이지 당 몇개의 게시물 출력
     # limit = 10
 
+=======
+>>>>>>> 46abe462be3abaa8f97f190e4996ddd56f9d8f81
     # # 컬렉션 모두 가져옴
     # datas = result.find({}).skip((page -1) * limit).limit(limit)
 
@@ -68,7 +87,11 @@ def community():
 
   else:
     return redirect(url_for('login'))
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> 46abe462be3abaa8f97f190e4996ddd56f9d8f81
 # 게시글 리스트 글 보기  
 @bp.route('/community_view')
 def community_view():
@@ -96,4 +119,8 @@ def community_modify():
     result=db.modify_community(session['userid'])
     return render_template('/public/community_modify.html', userName=session['userid'])
   else:
+<<<<<<< HEAD
     return redirect(url_for('login')) 
+=======
+    return redirect(url_for('login'))
+>>>>>>> 46abe462be3abaa8f97f190e4996ddd56f9d8f81
