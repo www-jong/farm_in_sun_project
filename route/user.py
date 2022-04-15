@@ -17,6 +17,54 @@ nowDatetime = now.strftime('%Y%m%d%H%M%S')
 
 bp = Blueprint('user', __name__, url_prefix='/user')
 
+@bp.route('/profiledit',methods=['GET','POST'])
+def profiledit():
+    if "userid" in session:
+        if request.method=='GET':
+            return render_template('/user/profile_edit.html', userName="사용자명")
+        else: #수정시
+            result=""
+            username=request.form['username']
+            bpwd=request.form['bpwd']
+            c1pwd=request.form['c1pwd']
+            c2pwd=request.form['c2pwd']
+            f=request.files['img']
+            imgurl="_"
+            if c1pwd!=c2pwd:
+                return render_template('alert/profiledit_notpasswd.html') # 새 비밀번호 불일치
+            elif db.select_login(session['userid'],bpwd) is None:
+                return render_template('alert/profiledit_notpasswd2.html')# 기존비밀번호 불일치
+            else: # 저장하기
+                print("***&*&*"*10)
+                print(session['userimage'])
+                print(f.filename)
+                imgpath='static/userprofileimg/' +session['userid']+"/"+f.filename
+                if session['userimage'] is None or session['userimage']=="_": #기존이미지가 없을경우
+                    print('기존 유저이미지가 없을 경우')
+                    createDirectory(os.getcwd()+"/static/userprofileimg/"+session['userid'])
+                    print(imgpath)
+                    if imgpath[-1]!="/":# 바꿀이미지가 있을경우
+                        f.save(imgpath) # 바꿀이미지 저장
+                        imgurl=f.filename #바꿀이미지 등록
+                        session['userimage']=imgurl #세션에 등록
+                    result=db.modify_userprofile(session['userid'],username,c1pwd,imgurl)
+                else: #기존이미지가 있을경우
+                    imgpath='static/userprofileimg/' +session['userid']+"/"+f.filename
+                    if imgpath[-1]!="/": # 바꿀이미지가 있을경우
+                        print("기존이미지 삭제, 이미지 교체")
+                        f.save(imgpath) # 바꿀이미지 저장
+                        imgurl=f.filename # 바꿀이미지이름 등록
+                        os.remove(os.getcwd()+"/static/userprofileimg/"+session['userid']+"/"+session['userimage'])
+                        session['userimage']=imgurl # 세션에 등록
+                    else: # 바꿀이미지는 없고 기존이미지만 있을경우
+                        imgurl=session['userimage']
+                    result=db.modify_userprofile(session['userid'],username,c1pwd,imgurl)
+                if result:
+                    return redirect(url_for('user.profiledit'))
+                
+    else:
+        return redirect(url_for('login'))
+
 # 로그인 후 이동하는 페이지
 @bp.route('/home')
 def home():

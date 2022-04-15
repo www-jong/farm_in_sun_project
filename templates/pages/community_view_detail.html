@@ -63,7 +63,7 @@
                         <div class="py-4 grey lighten-4">
                           {%for comment in comments%}
                           <div class="px-3">
-                            <img src={%if comment.userimage|length <3%}"/static/images/defaultimg.png"{%else%}{{comment.userimage}}{%endif%} class="z-depth-1 rounded-circle float-left" width="40" alt="avatar image">
+                            <img src={%if comment.userimage is none %}"/static/images/defaultimg.png"{%else%}{{comment.userimage}}{%endif%} class="z-depth-1 rounded-circle float-left" width="40" alt="avatar image">
                             <div class="d-flex flex-column pl-3">
                               <div class="">
                                 <!-- 댓글 작성자  프로필 사진 부분-->

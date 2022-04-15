@@ -6,9 +6,8 @@ from email.policy import default
 import queue,math
 from unittest import result
 from datetime import timedelta,datetime
-from flask_paginate import Pagination, get_page_parameter
 bp = Blueprint('public', __name__, url_prefix='/public')
-def createDirectory(directory): 
+def createDirectory(directory):
     try: 
         if not os.path.exists(directory): 
             os.makedirs(directory) 
@@ -18,9 +17,13 @@ now=datetime.now()
 nowDatetime = now.strftime('%Y%m%d%H%M%S')
 nowDatetime2 = now.strftime('%Y%m%d')
 
-@bp.route('/tip')
-def tip():
-  return render_template('/public/tip.html', userName="사용자명")
+# @bp.route('/tip')
+# def tip():
+#   return render_template('/public/tip.html', userName="사용자명")
+
+@bp.route('/tip_ver2')
+def tip2():
+  return render_template('/public/tip-ver2.html', userName="사용자명")
 
 @bp.route('/sang')
 def sang():
@@ -38,25 +41,42 @@ def ggae():
 @bp.route('/back')
 def back():
   return render_template('/alert/back.html', userName="사용자명")  
- 
-row_page=5
+
+
+limit=5 # 한페이지에 보일 게시글수
+looks_page=7 # 최대 표시할 페이지수
 # 커뮤니티 리스트
 @bp.route('/community',methods=['GET','POST'])
 def community():
   if "userid" in session:
     if request.method=='GET':   
+
+      keyword=request.args.get('keyword',default=None,type=str)
+      lk=request.args.get('lk',default=1,type=str)
       page=request.args.get('page',default=1,type=int) # 페이지
-      result=db.rend_communuty()
-      limit=5 # 한페이지에 보일 게시글수
-      c_list=db.rend_community_paging(limit,page-1)
-      looks_page=5 # 최대 표시할 페이지수
-      total_cnt=len(result) # 총 게시글수
-      print("총 게시글수 %d"%(len(result)))
-      #pagination=rPagination(page=page,total=total_cnt,search="True",recode_name="community_list")
-      print('총 페이지수 %d'%(math.ceil(len(result)//5)))
-      return render_template('/public/community.html', userName=session['userid'],lp=looks_page//2 ,community_list=c_list,c_list=c_list,page=page,maxpage=math.ceil(1+len(result)//5))
-    else:
-      pass
+      result=db.count_communuty(keyword=keyword,look_type=lk)
+      c_list=db.rend_community_paging(limit=limit,page=page-1,keyword=keyword,look_type=lk)
+      print('maxpage : ',int(math.ceil(result['count']/limit)))
+      print(result['count'])
+      return render_template('/public/community.html',lk=lk,keyword=keyword, userName=session['userid'],lp=looks_page//2 ,community_list=c_list,c_list=c_list,page=page,maxpage=int(math.ceil(result['count']/limit)))
+    else: #게시글 검색기능
+      keyword=request.form['keyword']
+      lk=request.form['look_type']
+      #sc=request.form['searchcheck']
+      if request.form['searchcheck']:
+        page=1
+      else:
+        page=request.args.get('page',default=1,type=int) # 페이지
+      result=db.count_communuty(keyword=keyword,look_type=lk)
+      print("^^"*20)
+      print('페이지 :',page)
+      print('검색유형 :',lk)
+      print('검색 키워드 :',keyword)
+      print('검색된 게시물 수 :',result)
+      c_list=db.rend_community_paging(limit=limit,page=page-1,keyword=keyword,look_type=lk)
+      print(keyword)
+      print(c_list)
+      return render_template('/public/community.html',lk=lk,keyword=keyword, userName=session['userid'],lp=looks_page//2 ,community_list=c_list,c_list=c_list,page=page,maxpage=int(math.ceil(result['count']/limit)))
   else:
     return redirect(url_for('login'))
 
@@ -109,7 +129,7 @@ def community_write():
         result=db.create_community(session['userid'],title,content,nowDatetime2+'/'+nowDatetime+"_"+session['userid']+"_"+f.filename)
         if result:
           result=db.rend_communuty()
-          return render_template('/public/community.html', userName=session['userid'], community_list=result)
+          return redirect(url_for('public.community'))
   else:
     return redirect(url_for('login'))
 

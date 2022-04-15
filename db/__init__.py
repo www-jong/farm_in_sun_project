@@ -116,11 +116,47 @@ def create_myplant(master_name,master_id,plant_name,imagepath,memo):
         result=None
     return result
 
-
+# 페이징을 위한 게시글카운트
+def count_communuty(keyword=None,look_type=1):
+    result = None
+    try:
+        connection = pymysql.connect(host=host,
+                                    user=user,
+                                    password=password,
+                                    database=database,
+                                    cursorclass=pymysql.cursors.DictCursor)
+        with connection:
+            with connection.cursor() as cursor:
+                try:
+                    if keyword is None:
+                        sql = '''
+                            select count(*) as count from communitydata;
+                        '''
+                        cursor.execute(sql)
+                        result = cursor.fetchone()
+                    else: # 키워드로 카운트가 들어왔다면
+                        if look_type==1: # 타이틀검색
+                            sql = '''
+                                select count(*) as count from communitydata where title LIKE %s; 
+                            '''
+                        else: # 내용검색
+                            sql = '''
+                                select count(*) as count from communitydata where content LIKE %s;
+                            '''
+                        cursor.execute(sql,('%'+keyword+'%'))
+                        result = cursor.fetchone()
+                    # print("%s %s %s %s %s @@@@"%(idx,id,title,content,filename))
+                except Exception as e1:
+                    print(e1)
+                    result=None
+    except Exception as e:
+        print(e)
+        result=None
+    return result
 
 
 # 페이징 구현
-def rend_community_paging(limit,page):
+def rend_community_paging(limit,page,keyword=None,look_type=1):
     result = None
     try:
         connection = pymysql.connect(host=host,
@@ -132,11 +168,24 @@ def rend_community_paging(limit,page):
             with connection.cursor() as cursor:
                 # 쿼리중 오류가 나더라도, 커넥션은 정상적으로 닫아야 하므로 예외처리 추가
                 try:
-                    sql = '''
-                        select *,(select count(*) from commentdata where a_idx=a.idx) as comcount from communitydata a order by uploaddate desc LIMIT %s OFFSET %s;
-                    '''
-                    cursor.execute(sql,(limit,page*limit))
-                    result = cursor.fetchall()
+                    if keyword is None:
+                        sql = '''
+                            select *,(select count(*) from commentdata where a_idx=a.idx) as comcount from communitydata a order by uploaddate desc LIMIT %s OFFSET %s;
+                        '''
+                        cursor.execute(sql,(limit,page*limit))
+                        result = cursor.fetchall()
+                    else: # 키워드값이 들어왔다면?
+                        if int(look_type)==1: # 제목에서찾기
+                            print("으아아아")
+                            sql = '''
+                                select *,(select count(*) from commentdata where a_idx=a.idx) as comcount from communitydata a where title  LIKE %s order by uploaddate desc LIMIT %s OFFSET %s;
+                            '''
+                        else:
+                            sql = '''
+                                select *,(select count(*) from commentdata where a_idx=a.idx) as comcount from communitydata a where content  LIKE %s order by uploaddate desc LIMIT %s OFFSET %s;
+                            '''
+                        cursor.execute(sql,('%'+keyword+'%',limit,page*limit))
+                        result = cursor.fetchall()
                 except Exception as e1:
                     print(e1)
                     result=None
@@ -145,7 +194,7 @@ def rend_community_paging(limit,page):
         result=None
     return result
 
-# 게시판 리스트 DB 연동
+# 게시판 전체 들고오기
 def rend_communuty(idx="None"):
     result = None
     try:
@@ -392,6 +441,41 @@ def modify_community(idx,title,content,filename):
                             update communitydata set title=%s,content=%s,filename=%s where idx=%s;
                         '''
                         cursor.execute(sql,(title+"(수정)",content,filename,idx))
+                    # print("%s %s %s %s %s @@@@"%(idx,id,title,content,filename))
+                    print("수정완료@@@@@@@@@@@@@@@@@@@@@")
+                    connection.commit() # insert, update ,delete후 커밋이 필수
+                    result = "성공"
+                    print(result)
+                except Exception as e1:
+                    print(e1)
+                    result=None
+    except Exception as e:
+        print(e)
+        result=None
+    return result
+
+def modify_userprofile(userid,username,pwd,filename):
+    result = None
+    try:
+        connection = pymysql.connect(host=host,
+                                    user=user,
+                                    password=password,
+                                    database=database,
+                                    cursorclass=pymysql.cursors.DictCursor)
+        with connection:
+            with connection.cursor() as cursor:
+                # 쿼리중 오류가 나더라도, 커넥션은 정상적으로 닫아야 하므로 예외처리 추가
+                try:
+                    if filename[-1]=="_": # 바꿀이미지 없는 경우
+                        sql = '''
+                            update userdata set username=%s,pwd=%s,userimage=null where id=%s;
+                        '''
+                        cursor.execute(sql,(username,pwd,userid))
+                    else: # 이미지 있는 경우
+                        sql = '''
+                            update userdata set username=%s,pwd=%s,userimage=%s where id=%s;
+                        '''
+                        cursor.execute(sql,(username,pwd,filename,userid))
                     # print("%s %s %s %s %s @@@@"%(idx,id,title,content,filename))
                     print("수정완료@@@@@@@@@@@@@@@@@@@@@")
                     connection.commit() # insert, update ,delete후 커밋이 필수
