@@ -18,6 +18,10 @@ def tip():
   return render_template('/public/tip.html', userName="사용자명")
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 08cc06566b0991b1755085bbcfe4ba92371ad307
 @bp.route('/sang')
 def sang():
   return render_template('/public/sang.html', userName="사용자명")
@@ -26,11 +30,20 @@ def sang():
 def chung():
   return render_template('/public/chung.html', userName="사용자명")
 =======
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 46abe462be3abaa8f97f190e4996ddd56f9d8f81
+>>>>>>> 08cc06566b0991b1755085bbcfe4ba92371ad307
 # 커뮤니티 리스트
 @bp.route('/community')
 def community():
   if "userid" in session:
     result=db.rend_communuty(session['userid'])
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 08cc06566b0991b1755085bbcfe4ba92371ad307
 >>>>>>> 46abe462be3abaa8f97f190e4996ddd56f9d8f81
 
     # # 페이지 값 (디폴트값 = 1)
@@ -42,8 +55,15 @@ def community():
 @bp.route('/ggae')
 def ggae():
   return render_template('/public/ggae.html', userName="사용자명")   
+=======
+>>>>>>> 46abe462be3abaa8f97f190e4996ddd56f9d8f81
 
+    # # 페이지 값 (디폴트값 = 1)
+    # page = request.args.get("page",1,type=int)
+    # # 한 페이지 당 몇개의 게시물 출력
+    # limit = 10
 
+<<<<<<< HEAD
 # 커뮤니티 리스트
 @bp.route('/community')
 def community():
@@ -57,6 +77,11 @@ def community():
 
 =======
 >>>>>>> 46abe462be3abaa8f97f190e4996ddd56f9d8f81
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 46abe462be3abaa8f97f190e4996ddd56f9d8f81
+>>>>>>> 08cc06566b0991b1755085bbcfe4ba92371ad307
     # # 컬렉션 모두 가져옴
     # datas = result.find({}).skip((page -1) * limit).limit(limit)
 
@@ -88,10 +113,20 @@ def community():
   else:
     return redirect(url_for('login'))
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 08cc06566b0991b1755085bbcfe4ba92371ad307
 
 =======
  
 >>>>>>> 46abe462be3abaa8f97f190e4996ddd56f9d8f81
+<<<<<<< HEAD
+=======
+=======
+ 
+>>>>>>> 46abe462be3abaa8f97f190e4996ddd56f9d8f81
+>>>>>>> 08cc06566b0991b1755085bbcfe4ba92371ad307
 # 게시글 리스트 글 보기  
 @bp.route('/community_view')
 def community_view():
@@ -120,7 +155,17 @@ def community_modify():
     return render_template('/public/community_modify.html', userName=session['userid'])
   else:
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 08cc06566b0991b1755085bbcfe4ba92371ad307
     return redirect(url_for('login')) 
 =======
     return redirect(url_for('login'))
 >>>>>>> 46abe462be3abaa8f97f190e4996ddd56f9d8f81
+<<<<<<< HEAD
+=======
+=======
+    return redirect(url_for('login'))
+>>>>>>> 46abe462be3abaa8f97f190e4996ddd56f9d8f81
+>>>>>>> 08cc06566b0991b1755085bbcfe4ba92371ad307

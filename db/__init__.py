@@ -243,6 +243,44 @@ else:
     print("다른사람이 사용시 호출")
     pass
 
+<<<<<<< HEAD
+=======
+
+# 게시판 리스트 DB 연동
+def rend_communuty(id):
+    result = None
+    try:
+        connection = pymysql.connect(host=host,
+                                    user=user,
+                                    password=password,
+                                    database=database,
+                                    cursorclass=pymysql.cursors.DictCursor)
+        with connection:
+            with connection.cursor() as cursor:
+                # 쿼리중 오류가 나더라도, 커넥션은 정상적으로 닫아야 하므로 예외처리 추가
+                try:
+                    sql = '''
+                        select * from communitydata where id=%s;
+                    '''
+                    # print("%s %s %s %s %s @@@@"%(idx,id,title,content,filename))
+                    cursor.execute(sql,(id))
+                    result = cursor.fetchall()
+                    print(result)
+                except Exception as e1:
+                    print(e1)
+                    result=None
+    except Exception as e:
+        print(e)
+        result=None
+    return result
+
+if __name__=='__main__':
+    select_login('guest','1')
+else:
+    print("다른사람이 사용시 호출")
+    pass
+
+>>>>>>> 46abe462be3abaa8f97f190e4996ddd56f9d8f81
 # 게시판 글 작성 BD 연동
 def create_community(id):
     result = None

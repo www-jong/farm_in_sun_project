@@ -1,0 +1,134 @@
+<div class="content-wrapper">
+    <section class="content">
+        <div class="container-fluid">
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+
+        <!-- 백엔드 작업 아무것도 안해서 모든 게시글을 누르면 아래 작성한 게시글 내용이 보여요! -->
+        <div class="container my-5 py-5 z-depth-1">
+            <!--Section: Content-->
+            <section class="text-center px-md-5 mx-md-5 dark-grey-text">
+                <div class="container my-5">
+                    <!-- Section: Block Content -->
+                    <section>
+                      <div class="card card-list">
+                        <div class="card-header white d-flex justify-content-between align-items-center py-3">
+                          <div class="d-flex justify-content-start align-items-center">
+                            
+                            <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(18).jpg" class="z-depth-1 rounded-circle" width="45" alt="avatar image">
+                            <div class="d-flex flex-column pl-3">
+                              <!-- 프로필 -->
+                              <a href="#!" class="font-weight-normal mb-0">{{nickname.username}}</a>
+                              <!-- 작성일 -->
+                              <p class="small text-muted mb-0">{{article.uploaddate}}</p>
+                            </div>
+                          </div>
+                          <ul class="list-unstyled d-flex align-items-center text-muted mb-0">
+                            <li>
+                              <a>
+                                <i class="far fa-circle fa-sm pl-3 material-tooltip-main" data-toggle="tooltip"
+                                title="Mark as read"></i>
+                              </a>
+                            </li>
+                            <li><a><i class="far fa-window-minimize fa-sm pl-3"></i></a></li>
+                            <li><a><i class="fas fa-times fa-sm pl-3"></i></a></li>
+                          </ul>
+                        </div>
+                        <div class="card-body">
+                          <!-- 업로드한 사진 들어갈 자리 -->
+                          {%if article.filename%}
+                          <img src="/static/communitydb/{{article.filename}}" class="img-fluid">
+                          {% endif%}
+                          <!-- 내용 -->
+                          <p class="my-4">{{article.content}}</p>
+                          <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex flex-row">
+                              <button type="button" onclick="location.href='{{url_for('public.likey', idx=article.idx)}}'" class="btn btn-fb btn-sm py-1 px-2 m-0 mr-2"><i class="far fa-thumbs-up pr-1"></i> Like</button>
+                              <button type="button" class="btn btn-light btn-sm py-1 px-2 m-0 mr-2"><i class="fas fa-share pr-1"></i> Share</button>
+                            </div>
+                            <!-- 좋아요인데 빼도 되여 -->
+                            <div class="d-flex flex-column pl-3">
+                              <p class="small text-muted mb-0">{{likes}} likes - {{comments|count}} comments</p>
+                            </div>
+                            <!-- 좋아요 끝 -->
+                          </div>
+                        </div>
+                        <div class="py-4 grey lighten-4">
+                          {%for comment in comments%}
+                          <div class="px-3">
+                            <img src="/static/images/icon/ggae_icon.png" class="z-depth-1 rounded-circle float-left" width="40" alt="avatar image">
+                            <div class="d-flex flex-column pl-3">
+                              <div class="">
+                                <!-- 댓글 작성자 프로필 링크는 프로필 사진-->
+                                <a href="static/images/icon/ggae_icon.png" class="font-weight-normal mb-0">{{comment.username}}</a>
+                                <p class="small text-muted float-right mb-0">{{comment.uploaddate}}</p>
+                              </div>
+                              <p class="font-weight-light dark-grey-text mb-0">{{comment.content}}</p>
+                            </div>
+                          </div>
+                          <hr class="my-3">
+                          {% endfor%}
+                        </div>
+                        <div class="card-footer white py-3">
+                          <div class="form-group mb-0">
+                            <form method="post">
+                              <input type="hidden" name="articlenum" value="{{article.idx}}"/>
+                            <textarea class="form-control rounded-0" name="comment" id="exampleFormControlTextarea1" rows="2"
+                              placeholder="Write a comment"></textarea>
+                            <div class="text-right pt-1">
+                              <a href="#">
+                                <button type="submit" class="btn btn-primary btn-sm"style= "margin-top: 5px; border:none;">댓글 등록</button>
+                              </a>
+                            </div>
+                          </form>
+                          </div>
+                        </div>
+                      </div>
+                  
+                    </section>
+                    <!-- Section: Block Content -->
+                  </div>
+                  
+                  <!-- 수정/삭제 버튼 (로그인 세션 필요, 동일한 계정만 수정 삭제 할 수 있게 또는 보이게)-->
+                  <div style="margin-top: -10px">
+                    <a href="/public/community" style="margin-right: 10px;">
+                      <button type="button" class="btn btn-outline-secondary">게시글 목록</button>
+                  </a>
+                  {% if article.id == userName%}
+                    <a href="{{url_for('public.community_modify', idx=article.idx)}}" style="margin-right: 10px;">
+                        <button type="button" class="btn btn-outline-secondary">게시글 수정</button>
+                    </a>
+
+                      <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#exampleModalCenter">
+                        게시글 삭제
+                      </button>
+                    {% endif%}
+                  </div> 
+                  <!-- 수정 삭제 끝 -->
+                   <!--모달부분-->
+                   <!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">게시글을 삭제하시겠습니까?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+        <a href="/public/community_delete">
+        <button type="button" class="btn btn-primary">삭제</button>
+      </a>
+      </div>
+    </div>
+  </div>
+</div>
+                   <!--모달 끝-->
+        <!-- Option 1: Bootstrap Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        </div>
+    </section>
+</div>

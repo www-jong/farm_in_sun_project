@@ -71,5 +71,11 @@ def aiservice():
     else:
 =======
     else:#세션정보 있을시, 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 46abe462be3abaa8f97f190e4996ddd56f9d8f81
+=======
+>>>>>>> 08cc06566b0991b1755085bbcfe4ba92371ad307
 >>>>>>> 46abe462be3abaa8f97f190e4996ddd56f9d8f81
         return redirect(url_for('login'))
