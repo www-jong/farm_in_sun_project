@@ -1,0 +1,129 @@
+/* 폰트 */
+@import url('https://fonts.googleapis.com/css2?family=Gothic+A1:wght@500&family=Nanum+Gothic+Coding&display=swap');
+
+.gg{
+    opacity: 0.0;
+}
+
+h2 {
+  font-size: 28px;
+  margin-bottom: 30px;
+  margin-top: 0;
+  font-family: 'Nanum Gothic Coding'
+}
+
+.padded {
+  padding: 100px 0;
+}
+
+.wrapper-grey {
+  background: #F4F4F4;
+}
+
+.avatar {
+  width: 30px;
+  border-radius: 50%;
+}
+
+.avatar-bordered {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  border: white 1px solid;
+}
+
+.avatar-large {
+  width: 50px;
+}
+
+/* .banner {
+      color: white;
+      text-align: center;
+      height: 100vh;
+      background-size: cover !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .banner h1 {
+      font-size: 50px;
+      font-weight: bold;
+      text-shadow: 0px 1px rgba(0, 0, 0, 0.2);
+    }
+    .banner p {
+      font-size: 25px;
+      font-weight: lighter;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 50px;
+    } */
+
+.card {
+  height: 250px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  background-size: cover !important;
+  color: white;
+  position: relative;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.card-user {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.card-category {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 20px;
+}
+
+.card-description {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+
+.card-description h2 {
+  font-size: 22px;
+}
+
+.card-description p {
+  font-size: 15px;
+}
+
+.card-link {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 2;
+  background: black;
+  opacity: 0;
+}
+
+.card-link:hover {
+  opacity: 0.1;
+}
+
+.features img {
+  width: 100px;
+}
+
+.features h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.features p {
+  font-size: 15px;
+  font-weight: lighter;
+}
+
+#modalLoginForm {
+  overflow: auto;
+}
+
+#modalLoginForm1 {
+  overflow: auto;
+}

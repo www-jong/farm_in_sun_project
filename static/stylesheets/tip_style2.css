@@ -81,3 +81,23 @@ body {
     background: #ffffff;
     background: linear-gradient(0deg, rgba(123, 183, 106, 0.252) 0%, #516b4d 100%);
   }
+
+
+  @import url('https://fonts.googleapis.com/css?family=Red+Hat+Display:900&display=swap');
+
+  h1 {
+    font-size: 50vw;
+    max-width: 100vw;
+    color: #000000;
+ }
+  h1 span {
+    background-image: linear-gradient(transparent calc(65% - 5px), #c7ffa1 5px);
+    background-size: 0;
+    background-repeat: no-repeat;
+    display: inline;
+    transition: 0.5s ease;
+ }
+  h1:hover span {
+    background-size: 100%;
+ }
+  

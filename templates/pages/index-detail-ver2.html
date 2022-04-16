@@ -1,0 +1,161 @@
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<link rel="stylesheet" href="/static/stylesheets/indexweather.css">
+<link rel="stylesheet" href="/static/stylesheets/titlefont.css">
+<link rel="stylesheet" href="/static/stylesheets/best.css">
+<link rel="stylesheet" href="/static/stylesheets/index_box.css">
+
+
+<div class="content-wrapper">
+
+  <div class="content-header">
+    <div class="container-fluid">
+        
+        <!--제목넣자-->
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <div class="container">
+                <div class="box">
+            
+                  <p id= "introtitle" style="font-size: 40px;">Hello, Farm in Sun!<img src="../../static/images/icon/framinsun2.png" style="width:65px; height:65px;"></p>
+            
+                </div>
+            </div>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+
+        </div>
+
+          <section class="content">
+            <div class="container-fluid">
+              <!-- Small boxes (Stat box) -->
+              <!-- 컨텐츠는 한줄씩 표현 -->
+              <!-- 한줄에는 12칸으로 잡혀있다. -->
+              
+
+              <p style="margin : 40px 0px 40px 30px; text-align: left; font-size: 35px;"> | 기상상황</p>
+              
+              <div class="row">
+                <div class="col-lg-3 col-6">
+                  <!-- small box -->
+                  <div class="card" style="width: 18rem;">
+                    <img class="card-image-top" src="../../static/images/humi.jpg">
+                    <div class="card-body">
+                        <h4 class="m-b-20">습도</h4>
+                        <h2 class="text-right"><img class="f-left" src="../../static/images/icon/water.png" style="width:35px; height:35px;"><div class="chumidity"></h2>
+                        <p class="m-b-0">대한민국, 서울 현재 습도</p>
+                    </div>
+                </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-6">
+                  <!-- small box -->
+                  <div class="card" style="width: 18rem;">
+                    <img class="card-image-top" src="../../static/images/wind.jpg">
+                    <div class="card-body">
+                        <h4 class="m-b-20">풍속</h4>
+                        <h2 class="text-right"><img class="f-left" src="../../static/images/icon/wind.png" style="width:35px; height:35px;"></i><div class="windspeed"></div></h2>
+                        <p class="m-b-0">대한민국, 서울 현재 풍속</p>
+                    </div>
+                </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-6">
+                  <!-- small box -->
+                  <div class="card" style="width: 18rem;">
+                    <img class="card-image-top" src="../../static/images/rain.jpg">
+                    <div class="card-body">
+                        <h4 class="m-b-20">강수확률</h4>
+                        <h2 class="text-right"><img class="f-left" src="../../static/images/icon/um.png" style="width:35px; height:35px;"><div class="cprobability"></div></h2>
+                        <p class="m-b-0">대한민국, 서울 현재 강수확률</p>
+                    </div>
+                </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-6">
+                  <!-- small box -->
+                  <div class="card" style="width: 18rem;">
+                    <img class="card-image-top" src="../../static/images/temp.jpg">
+                    <div class="card-body">
+                        <h4 class="m-b-20">온도</h4>
+                        <h2 class="text-right"><img class="f-left" src="../../static/images/icon/temp.png" style="width:35px; height:35px;"><div class="temp"></div></h2>
+                        <p class="m-b-0">대한민국, 서울 현재 온도</p>
+                    </div>
+                </div>
+                </div>
+                <!-- ./col -->
+              </div>     
+          
+            </div><!-- /.container-fluid -->
+            
+            <!--기후에 따른 작물-->
+            <section class="page-contain">
+              <a href="#" class="data-card">
+                <h3>청경채</h3>
+                <h4>오늘 날씨와 청경채</h4>
+                <p class="temp1">- </p>
+                <p class="type1">- </p>
+                
+              </a>
+              <a href="#" class="data-card">
+                <h3>상추</h3>
+                <h4>오늘 날씨와 상추</h4>
+                <p class="temp2">- </p>
+                <p class="type1">- </p>
+              </a>
+
+              <a href="#" class="data-card">
+                <h3>깻잎</h3>
+                <h4>오늘 날씨와 깻잎</h4>
+                <p class="temp3">- </p>
+                <p class="type1">- </p>
+              </a>
+            </section>
+
+
+          <!--커뮤니티 인기글-->
+       <div style="font-size: 40px; margin: 30px 0px 30px 0px; text-align: center;">
+        <h1>커뮤니티 인기글</h1>
+        <!--테이블-->
+       </div>
+            <!-- board list area -->
+            <div id="board-list">
+              <div class="container">
+                  <table class="board-table">
+                      <thead>
+                      <tr>
+                          <th scope="col" class="th-num">번호</th>
+                          <th scope="col" class="th-title">제목</th>
+                          <th scope="col" class="th-date">등록일</th>
+                          <th scope="col" class="th-date">작성자</th>
+                          <th scope="col" class="th-date">추천수</th>
+                          <th scope="col" class="th-date">조회수</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      {% for i in data_list %}
+                      <tr>
+                          <td>{{ i[0] }}</td>
+                          <td>{{ i[1] }}</td>
+                          <td>{{ i[2] }}</td>
+                          <td>{{ i[3] }}</td>
+                          <td>{{ i[4] }}</td>
+                          <td>{{ i[5] }}</td>
+                      </tr>
+                      {% endfor %}
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      
+       <!-- /.container-fluid -->
+
+    <!-- /.content -->
+    </div>
+  </div>
+</div>

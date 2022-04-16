@@ -30,7 +30,7 @@
       nav ul li a {
         padding: 18px; 
         text-transform:uppercase;
-        color: rgba(0, 0, 0, 1);
+        color: rgb(0, 0, 0);
         font-size: 18px;
         text-decoration: none;
         display: block;
@@ -96,6 +96,55 @@
       margin-left: 50px;
       float: left;}
 
+
+      /* 제목 style */
+      html {
+        background: white;
+      }
+      .popout {
+        font-family: Futura, sans-serif;
+        color: rgb(213, 63, 63);
+        font-weight: 90;
+        font-size: 60px;
+        padding: 10px;
+      }
+      @keyframes ani {
+        0% {
+          transform: translate3d(0, 0, 0);
+          text-shadow: 0em 0em 0 rgb(186, 249, 203);
+          color: black;
+        }
+        30% {
+          transform: translate3d(0, 0, 0);
+          text-shadow: 0em 0em 0 rgb(186, 249, 203);
+          color: black;
+        }
+        70% {
+          transform: translate3d(0.08em, -0.08em, 0);
+          text-shadow: -0.08em 0.08em rgb(186, 249, 203);
+        }
+        100% {
+          transform: translate3d(0.08em, -0.08em, 0);
+          text-shadow: -0.08em 0.08em rgb(186, 249, 203);
+          color: black;
+        }
+      }
+      .popout span {
+        position: relative;
+        display: inline-block;
+        animation: ani 1s infinite alternate cubic-bezier(0.86, 0, 0.07, 1);
+      }
+      .popout span:nth-last-child(1n) {
+        animation-delay: -0.1666666667s;
+      }
+      .popout span:nth-last-child(2n) {
+        animation-delay: -0.3333333333s;
+      }
+      .popout span:nth-last-child(3n) {
+        animation-delay: -0.5s;
+      }
+ 
+
     </style>
 
     <!-- 네비바 시작 -->
@@ -119,7 +168,10 @@
 
       <!-- 시작하기 글씨 시작 -->
       <div style="text-align:center" class="text">
-        <p style="font-size: 50px; font-family: 'Noto Sans KR', sans-serif;">식물에 활력을 불어 넣는 <br> Farm in Sun</p><br />
+        <p style="font-size: 50px; font-family: 'Noto Sans KR', sans-serif;">식물에 활력을 불어 넣는</p><br />
+        <p class="popout" id="popout">
+          <span>F</span><span>A</span><span>R</span><span>M</span><span>_</span><span>I</span><span>N</span><span>_</span><span>S</span><span>U</span><span>N</span>
+        </p>
         Farm in sun 웹 서비스 기반 생육 환경 최적화 기능을 활용해 <br />
         집에서 키우는 식물을 더 이상 죽이지 마세요<br />
       </div>

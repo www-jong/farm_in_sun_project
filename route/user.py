@@ -1,10 +1,14 @@
+from unittest import result
 from flask import Flask,render_template,request,jsonify,redirect,url_for,Blueprint
 from ml import predict_lang,trans_lang
 from flask import session
 import db,os
+import queue,math
 from datetime import timedelta
 from werkzeug.utils import secure_filename
 from datetime import datetime
+import pymysql;
+
 def createDirectory(directory): 
     try: 
         if not os.path.exists(directory): 
@@ -13,6 +17,7 @@ def createDirectory(directory):
         print("Error: Failed to create the directory.")
 now=datetime.now()
 nowDatetime = now.strftime('%Y%m%d%H%M%S')
+
 
 
 bp = Blueprint('user', __name__, url_prefix='/user')
@@ -97,11 +102,6 @@ def myplant():
                 return render_template('alert/add_fail.html')
     else:#세션정보 없을시, 
         return redirect(url_for('login'))
-
-
-
-
-
 # 나의식물 페이지 리스트로 이동
 @bp.route('/myplantlist')
 def myplantlist():
@@ -119,3 +119,13 @@ def aiservice():
         return render_template('user/aiservice.html',userName=session['userid'])
     else:#세션정보 있을시, 
         return redirect(url_for('login'))
+        
+#인기글
+@bp.route('/best', methods=['GET'])
+def best():
+    if "userid" in session:
+        data_list=db.most_like_community()
+        return render_template('user/index.html', data_list=data_list)
+    else:#세션정보 있을시, 
+        return redirect(url_for('login'))
+

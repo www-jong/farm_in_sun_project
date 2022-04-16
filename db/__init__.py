@@ -523,3 +523,30 @@ if __name__=='__main__':
 else:
     print("다른사람이 사용시 호출")
     pass
+
+#3일 베스트 게시물
+def most_like_community():
+    result = None
+    try:
+        connection = pymysql.connect(host=host,
+                                    user=user,
+                                    password=password,
+                                    database=database,
+                                    )
+        with connection:
+            with connection.cursor() as cursor:
+                # 쿼리중 오류가 나더라도, 커넥션은 정상적으로 닫아야 하므로 예외처리 추가
+                try:
+                    sql = '''
+                        select * from communitydata order by likes desc, lookes desc limit 10 WHERE uploaddate BETWEEN DATE_ADD(NOW(), INTERVAL -3 DAY ) AND NOW();
+                    '''
+                    #커서 -> sql문의 결과를 가져온다.
+                    cursor.execute(sql)
+                    #딕셔너리 형태로 가져오면 전체를 가져온다
+                    result = cursor.fetchall()
+                    print(result)
+                except Exception as e1:
+                    print(e1)
+    except Exception as e:
+        print(e)
+    return result
