@@ -1,7 +1,10 @@
+from email.policy import default
+import queue
+from unittest import result
 from flask import Flask,render_template,request,jsonify,redirect,url_for,Blueprint
 from ml import predict_lang,trans_lang
 from flask import session
-import db,os
+import db,os,math
 from email.policy import default
 import queue,math
 from unittest import result
@@ -118,6 +121,8 @@ def community_write():
       return render_template('/public/community_write.html', userName=session['userid'])
     else:# 게시글 등록 시,
         title=request.form['title']
+        if title=="": # 제목이 비어있을 경우 다시쓰기
+          return render_template('alert/community_write_nonetitle.html')
         content=request.form['content']
         f=request.files['img']
         imgpath='static/communitydb/' +nowDatetime2+"/"+nowDatetime+"_"+session['userid']+"_"+f.filename
