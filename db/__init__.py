@@ -81,7 +81,7 @@ def rend_myplant(id):
     return result
 
 # 나의식물 등록(미완성)
-def create_myplant(master_name,master_id,plant_name,imagepath,memo):
+def create_myplant(master_id,plant_name,imagename,memo,kind):
     result = None
     try:
         connection = con()
@@ -90,12 +90,16 @@ def create_myplant(master_name,master_id,plant_name,imagepath,memo):
                 # 쿼리중 오류가 나더라도, 커넥션은 정상적으로 닫아야 하므로 예외처리 추가
                 try:
                     sql = '''
-                        insert into plantdata(master_name,master_id,plant_name,imagepath,memo) values (%s,%s,%s,%s,%s);
+                        insert into plantdata(master_id,plant_name,imagename,memo,kind) values (%s,%s,%s,%s,%s);
                     '''
 
-                    cursor.execute(sql,(master_name,master_id,plant_name,imagepath,memo))
+                    cursor.execute(sql,(master_id,plant_name,imagename,memo,kind))
                     connection.commit() # insert, update ,delete후 커밋이 필수
-                    result = "성공"
+                    sql='''
+                        select plant_no from plantdata where master_id=%s and plant_name=%s and kind=%s;
+                    '''
+                    cursor.execute(sql,(master_id,plant_name,kind))
+                    result = cursor.fetchone()
                     #print(result)
                 except Exception as e1:
                     print(e1)
@@ -104,6 +108,32 @@ def create_myplant(master_name,master_id,plant_name,imagepath,memo):
         print(e)
         result=None
     return result
+
+# 로그등록
+def create_myplant_log(plant_no,master_id,log,imagename):
+    result = None
+    try:
+        connection = con()
+        with connection:
+            with connection.cursor() as cursor:
+                # 쿼리중 오류가 나더라도, 커넥션은 정상적으로 닫아야 하므로 예외처리 추가
+                try:
+                    sql = '''
+                        insert into plantlog(plant_no,master_id,log,imagename) values (%s,%s,%s,%s);
+                    '''
+
+                    cursor.execute(sql,(plant_no,master_id,log,imagename))
+                    connection.commit() # insert, update ,delete후 커밋이 필수
+                    result = "완료"
+                    #print(result)
+                except Exception as e1:
+                    print(e1)
+                    result=None
+    except Exception as e:
+        print(e)
+        result=None
+    return result
+
 
 # 페이징을 위한 게시글카운트
 def count_communuty(keyword=None,look_type=1):
@@ -230,10 +260,13 @@ def create_community(id,title,content,filename):
                         '''
                         cursor.execute(sql,(id,title,content,filename))
                     # print("%s %s %s %s %s @@@@"%(idx,id,title,content,filename))
-
                     connection.commit() # insert, update ,delete후 커밋이 필수
-                    result = "성공"
-                    print(result)
+                    sql = '''
+                        select idx from communitydata where id=%s and title=%s and content=%s;
+                    '''
+                    cursor.execute(sql,(id,title,content))
+                    result = cursor.fetchone()
+                    print('등록작동',result)
                 except Exception as e1:
                     print(e1)
                     result=None
@@ -380,16 +413,16 @@ def modify_community(idx,title,content,filename):
             with connection.cursor() as cursor:
                 # 쿼리중 오류가 나더라도, 커넥션은 정상적으로 닫아야 하므로 예외처리 추가
                 try:
-                    if filename[-1]=="_":
+                    if filename[-1]=="_" or filename=="None":
                         sql = '''
                             update communitydata set title=%s,content=%s,filename=null where idx=%s;
                         '''
-                        cursor.execute(sql,(title+"(수정)",content,idx))
+                        cursor.execute(sql,(title+("" if "(수정)" in title else "(수정)") ,content,idx))
                     else:
                         sql = '''
                             update communitydata set title=%s,content=%s,filename=%s where idx=%s;
                         '''
-                        cursor.execute(sql,(title+"(수정)",content,filename,idx))
+                        cursor.execute(sql,(title+("" if "(수정)" in title else "(수정)"),content,filename,idx))
                     # print("%s %s %s %s %s @@@@"%(idx,id,title,content,filename))
                     print("수정완료@@@@@@@@@@@@@@@@@@@@@")
                     connection.commit() # insert, update ,delete후 커밋이 필수
@@ -410,13 +443,17 @@ def modify_userprofile(userid,username,pwd,filename):
         with connection:
             with connection.cursor() as cursor:
                 # 쿼리중 오류가 나더라도, 커넥션은 정상적으로 닫아야 하므로 예외처리 추가
+                print("1234")
+                print(filename)
                 try:
-                    if filename[-1]=="_": # 바꿀이미지 없는 경우
+                    if filename is None or filename=="None": # 바꿀이미지 없는 경우
+                        print("바꿀이미지없음")
                         sql = '''
                             update userdata set username=%s,pwd=%s,userimage=null where id=%s;
                         '''
                         cursor.execute(sql,(username,pwd,userid))
                     else: # 이미지 있는 경우
+                        print('바꿀이미지있음')
                         sql = '''
                             update userdata set username=%s,pwd=%s,userimage=%s where id=%s;
                         '''

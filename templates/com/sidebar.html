@@ -18,13 +18,13 @@
         <!-- <div class="user-panel mt-3 pb-3 mb-3 d-flex"> -->
         <div class="brand-link" style="border: #8a8585;">
             <div class="image">
-                <a href="#">
-                    <img src="/static/images/icon/sprout.png" class="img-circle elevation-2" alt="User Image"
+                <a href="/user/profiledit">
+                    <img src={% if session.get('userimage') is none or session.get('userimage') =='_' %}"/static/images/icon/sprout.png"{%else%}"/static/imgdb/user/{{session.get('userid')}}/{{session.get('userimage')}}"{%endif%} class="img-circle elevation-2" alt="User Image"
                         id="profileimage">
                 </a>
             </div>
             <div class="info">
-                <a href="#" class="d-block" id="profile">{{userName}} 새싹회원</a>
+                <a href="/user/profiledit" class="d-block" id="profile">{{userName}} 새싹회원</a>
             </div>
         </div>
         <br>

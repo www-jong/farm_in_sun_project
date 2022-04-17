@@ -21,6 +21,30 @@ now=datetime.now()
 nowDatetime = now.strftime('%Y%m%d%H%M%S')
 nowDatetime2 = now.strftime('%Y%m%d')
 
+def imagesaver(path,file,beforefilename="X"):
+  #path경로는 ~~~/~~~ 형식으로 끝에 /가 오면 안된다.
+  save_path='static/imgdb/'+path
+  createDirectory(os.getcwd()+"/static/imgdb/"+path)
+  # 커뮤니티 사진저장소 : /static/communitydb/일자(20220417)/게시물번호
+  if file.filename is None or file.filename=="":# 저장할 사진이 없다면
+    if beforefilename=="X":#기존 사진이 없다면
+      print("저장할사진x 기존사진x")
+      pass
+    else: # 기존사진이 있다면
+      print("저장할사진x 기존사진o")
+      pass 
+  else: # 저장할 사진이 있다면
+    if beforefilename=="X" or beforefilename is None or beforefilename=="None":#기존 사진이 없다면
+      print("저장할사진o 기존사진x")
+      file.save(os.path.join(save_path,nowDatetime+"_"+session['userid']+"_"+file.filename))
+      pass
+    else: # 기존사진이 있다면
+      print("저장할사진o 기존사진o")
+      os.remove(os.getcwd()+"/"+save_path+"/"+beforefilename)
+      file.save(os.path.join(save_path,nowDatetime+"_"+session['userid']+"_"+file.filename))
+      pass 
+
+
 # @bp.route('/tip')
 # def tip():
 #   return render_template('/public/tip.html', userName="사용자명")
@@ -71,13 +95,21 @@ def community():
           return render_template('alert/community_write_nonetitle.html')
         content=request.form['content']
         f=request.files['img']
-        imgpath='static/communitydb/' +nowDatetime2+"/"+nowDatetime+"_"+session['userid']+"_"+f.filename
-        createDirectory(os.getcwd()+"/static/communitydb/"+nowDatetime2)
-        if imgpath[-1]!="_":
-          print("^"*20)
-          print(imgpath)
-          f.save(imgpath)
-        result=db.create_community(session['userid'],title,content,nowDatetime2+'/'+nowDatetime+"_"+session['userid']+"_"+f.filename)
+        result=db.create_community(session['userid'],title,content,nowDatetime+"_"+session['userid']+"_"+f.filename)
+        print('*(*&(^')
+        print(result)
+        print(f.filename)
+        if f.filename=="None":
+          print("None 1번")
+        elif f.filename is None:
+          print("None 2번")
+        elif f.filename =="":
+          print("None 3번")
+        elif f.filename:
+          print("None 4번")
+        
+        # 이미지등록함수 경로, 새로올릴파일, 기존파일이름
+        imagesaver('community/'+nowDatetime2+"/"+str(result['idx']),f)
         if result:
           result=db.rend_communuty()
           return redirect(url_for('public.community'))
@@ -122,20 +154,21 @@ def community_view():
                                                          article=result,nickname=nickname,comments=comments,likes=likes,page=page)
     else: # 댓글 등록시, 
       type=int(request.form['type'])
-      if type==1: # 수정부분
+      if type==1: # 게시글 수정부분
         idx=request.form['idx']
         title=request.form['title']
         content=request.form['content']
         f=request.files['img']
         beforefile=request.form['beforefilename']
-        imgpath='static/communitydb/' +nowDatetime2+"/"+nowDatetime+"_"+session['userid']+"_"+f.filename
-        createDirectory(os.getcwd()+"/static/communitydb/"+nowDatetime2)
-        f.save(imgpath)        
-        result=db.modify_community(idx,title,content,nowDatetime2+'/'+nowDatetime+"_"+session['userid']+"_"+f.filename)
-        print("-"*20)
-        print(beforefile)
-        if beforefile!="None": # 이전에 이미 사진이 등록되어있었다면, 사진삭제
-            os.remove(os.getcwd()+"/static/communitydb/"+beforefile)
+        beforedate=request.form['beforedate']
+        imagesaver('community/'+beforedate+"/"+idx,f,beforefile)
+        if beforefile: # 기존파일이 있을때,
+          if f.filename=="": # 등록할 파일이 없다면
+            result=db.modify_community(idx,title,content,beforefile)
+          else: # 등록할 파일이 있다면
+            result=db.modify_community(idx,title,content,nowDatetime+"_"+session['userid']+"_"+f.filename)
+        else:
+          result=db.modify_community(idx,title,content,nowDatetime+"_"+session['userid']+"_"+f.filename)
         return redirect(url_for('public.community_view',idx=idx)) 
       elif type==2: # 댓글 작성기능
         a_idx=request.form['articlenum']
@@ -150,7 +183,8 @@ def community_view():
   else:
     return redirect(url_for('login'))
 
-# 게시글 작성
+# 게시글 작성 -> 모달로 이동됨
+'''
 @bp.route('/community_write', methods=['GET','POST'])
 def community_write():
   if "userid" in session:
@@ -174,8 +208,10 @@ def community_write():
           return redirect(url_for('public.community'))
   else:
     return redirect(url_for('login'))
+'''
 
-# 게시글 수정
+# 게시글 수정 -> 모달로 이동됨
+'''
 @bp.route('/community_modify',methods=['GET','POST'])
 def community_modify():
   if "userid" in session:
@@ -203,6 +239,7 @@ def community_modify():
       return redirect(url_for('public.community_view',idx=idx)) 
   else:
     return redirect(url_for('login')) 
+'''
 
 # 게시글 삭제
 @bp.route('/community_delete')

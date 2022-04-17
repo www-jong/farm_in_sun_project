@@ -14,6 +14,35 @@ def createDirectory(directory):
 now=datetime.now()
 nowDatetime = now.strftime('%Y%m%d%H%M%S')
 
+def imagesaver(path,file,beforefilename="X",customfilename="X"):
+  #path경로는 ~~~/~~~ 형식으로 끝에 /가 오면 안된다.
+  save_path='static/imgdb/'+path
+  createDirectory(os.getcwd()+"/static/imgdb/"+path)
+  # 커뮤니티 사진저장소 : /static/communitydb/일자(20220417)/게시물번호
+  if file.filename is None or file.filename=="":# 저장할 사진이 없다면
+    if beforefilename=="X":#기존 사진이 없다면
+      print("저장할사진x 기존사진x")
+      pass
+    else: # 기존사진이 있다면
+      print("저장할사진x 기존사진o")
+      pass 
+  else: # 저장할 사진이 있다면
+    if beforefilename=="X" or beforefilename is None or beforefilename=="None":#기존 사진이 없다면
+      print("저장할사진o 기존사진x")
+      if customfilename!="X":
+        file.save(os.path.join(save_path,customfilename))
+      else:
+        file.save(os.path.join(save_path,file.filename))
+      pass
+    else: # 기존사진이 있다면
+      print("저장할사진o 기존사진o")
+      os.remove(os.getcwd()+"/"+save_path+"/"+beforefilename)
+      if customfilename!="X":
+        file.save(os.path.join(save_path,customfilename))
+      else:
+        file.save(os.path.join(save_path,file.filename))
+      pass 
+
 
 bp = Blueprint('user', __name__, url_prefix='/user')
 
@@ -38,6 +67,19 @@ def profiledit():
                 print(session['userimage'])
                 print(f.filename)
                 imgpath='static/userprofileimg/' +session['userid']+"/"+f.filename
+                imagesaver("user/"+session['userid'],f,session['userimage'])
+                if f.filename is None or f.filename=="": # 새 이미지가 없는경우
+                    print("넣을 이미지가 비어있다!")
+                    print(session['userid'])
+                    print(username)
+                    print(c1pwd)
+                    print(session['userimage'])
+                    result=db.modify_userprofile(session['userid'],username,c1pwd,session['userimage'])
+                else:# 새 이미지가 있는경우
+                    session['userimage']=f.filename
+                    result=db.modify_userprofile(session['userid'],username,c1pwd,f.filename)
+                
+                '''
                 if session['userimage'] is None or session['userimage']=="_": #기존이미지가 없을경우
                     print('기존 유저이미지가 없을 경우')
                     createDirectory(os.getcwd()+"/static/userprofileimg/"+session['userid'])
@@ -58,6 +100,7 @@ def profiledit():
                     else: # 바꿀이미지는 없고 기존이미지만 있을경우
                         imgurl=session['userimage']
                     result=db.modify_userprofile(session['userid'],username,c1pwd,imgurl)
+                    '''
                 if result:
                     return redirect(url_for('user.profiledit'))
                 
@@ -83,18 +126,34 @@ def myplant():
         if request.method=='GET':
             result=db.rend_myplant(session['userid'])
             return render_template('user/myplant.html',userName=session['userid'],plants=result)
-        else: # 사진등록시,
+        else: # 식물등록시,
             print('등록 post 모드')
             kind=request.form['kind']
+            print(session['userid'])
+            print(kind)
             plantname=request.form['plantname']
+            print('plantname:',plantname)
             memo=request.form['memo']
+            print("memo:",memo)
             f=request.files['img']
-            imgpath='static/imgdb/' +session['userid']+"/"+nowDatetime+"_"+f.filename
-            createDirectory(os.getcwd()+"/static/imgdb/"+session['userid'])
-            f.save(imgpath)
-            result=db.create_myplant(session['username'],session['userid'],plantname,nowDatetime+"_"+f.filename,memo)
-            if result=="성공":
-                return render_template('alert/add_success.html')
+            print('filename',f.filename)
+            if f.filename=="None" or f.filename=="":
+                return render_template('alert/plantfile_empty.html')
+            elif kind is None or kind=="":
+                return render_template('alert/plantkind_empty.html')
+            elif plantname is None or plantname=="":
+                return render_template('alert/plantname_empty.html')
+            
+            imagesaver("user/"+session['userid']+"/"+plantname,f,customfilename="1_"+f.filename)
+            #createDirectory(os.getcwd()+"/static/imgdb/"+session['userid'])
+            result=db.create_myplant(session['userid'],plantname,"1_"+f.filename,memo,kind)
+            if result:
+                result2=db.create_myplant_log(str(result['plant_no']),session['userid'],"start","1_"+f.filename)
+                if result2:
+                    return render_template('alert/add_success.html')
+                else:
+                    print('등록실패')
+                    return render_template('alert/add_fail.html')
             else:
                 return render_template('alert/add_fail.html')
     else:#세션정보 없을시, 

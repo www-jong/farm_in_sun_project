@@ -28,14 +28,14 @@
 
             <div class="col-xs-3 col-sm-4">
               <div class="card"
-                style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)), url('/static/imgdb/{{userName}}/{{plant.imagepath}}');">
+                style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)), url('/static/imgdb/user/{{userName}}/{{plant.plant_name}}/{{plant.imagename}}');">
                 <div class="card-category">{{plant.plant_name}}</div>
                 <div class="card-description">
                   <h2>대충 성장률? 들어갈곳</h2>
 
                   <p>{{plant.memo}}</p>
                 </div>
-                <img class="card-user avatar avatar-large" src="/static/imgdb/{{userName}}/{{plant.imagepath}}">
+                <img class="card-user avatar avatar-large" src="/static/imgdb/user/{{userName}}/{{plant.plant_name}}/{{plant.imagename}}">
                 <a class="card-link" class="btn btn-primary" data-toggle="modal" href="#mymodal1"></a>
               </div>
             </div>
@@ -79,7 +79,7 @@
                       </div>
                       <br>
                       <div class="mb-1">
-                        <span class="text-sm">이름</span>
+                        <span class="text-sm">이름2</span>
                         <input type="text" name='plantname' placeholder="이름 예)우리집 양상추"
                           class="h-12 px-3 w-full border-green-500 border-2 rounded focus:outline-none focus:border-black">
                       </div>
