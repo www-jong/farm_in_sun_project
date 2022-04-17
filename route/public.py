@@ -1,5 +1,6 @@
 from email.policy import default
 import queue
+from socket import AI_PASSIVE
 from unittest import result
 from flask import Flask,render_template,request,jsonify,redirect,url_for,Blueprint
 from ml import predict_lang,trans_lang
@@ -62,24 +63,43 @@ def community():
       print('maxpage : ',int(math.ceil(result['count']/limit)))
       print(result['count'])
       return render_template('/public/community.html',lk=lk,keyword=keyword, userName=session['userid'],lp=looks_page//2 ,community_list=c_list,c_list=c_list,page=page,maxpage=int(math.ceil(result['count']/limit)))
-    else: #게시글 검색기능
-      keyword=request.form['keyword']
-      lk=request.form['look_type']
-      #sc=request.form['searchcheck']
-      if request.form['searchcheck']:
-        page=1
-      else:
-        page=request.args.get('page',default=1,type=int) # 페이지
-      result=db.count_communuty(keyword=keyword,look_type=lk)
-      print("^^"*20)
-      print('페이지 :',page)
-      print('검색유형 :',lk)
-      print('검색 키워드 :',keyword)
-      print('검색된 게시물 수 :',result)
-      c_list=db.rend_community_paging(limit=limit,page=page-1,keyword=keyword,look_type=lk)
-      print(keyword)
-      print(c_list)
-      return render_template('/public/community.html',lk=lk,keyword=keyword, userName=session['userid'],lp=looks_page//2 ,community_list=c_list,c_list=c_list,page=page,maxpage=int(math.ceil(result['count']/limit)))
+    else: #게시글 검색기능, 작성기능
+      type=int(request.form['type'])
+      if type==1: # 작성기능일경우
+        title=request.form['title']
+        if title=="": # 제목이 비어있을 경우 다시쓰기
+          return render_template('alert/community_write_nonetitle.html')
+        content=request.form['content']
+        f=request.files['img']
+        imgpath='static/communitydb/' +nowDatetime2+"/"+nowDatetime+"_"+session['userid']+"_"+f.filename
+        createDirectory(os.getcwd()+"/static/communitydb/"+nowDatetime2)
+        if imgpath[-1]!="_":
+          print("^"*20)
+          print(imgpath)
+          f.save(imgpath)
+        result=db.create_community(session['userid'],title,content,nowDatetime2+'/'+nowDatetime+"_"+session['userid']+"_"+f.filename)
+        if result:
+          result=db.rend_communuty()
+          return redirect(url_for('public.community'))
+      elif type==2:
+        print("검색기능 작동")
+        keyword=request.form['keyword']
+        lk=request.form['look_type']
+        #sc=request.form['searchcheck']
+        if request.form['searchcheck']:
+          page=1
+        else:
+          page=request.args.get('page',default=1,type=int) # 페이지
+        result=db.count_communuty(keyword=keyword,look_type=lk)
+        print("^^"*20)
+        print('페이지 :',page)
+        print('검색유형 :',lk)
+        print('검색 키워드 :',keyword)
+        print('검색된 게시물 수 :',result)
+        c_list=db.rend_community_paging(limit=limit,page=page-1,keyword=keyword,look_type=lk)
+        print(keyword)
+        print(c_list)
+        return render_template('/public/community.html',lk=lk,keyword=keyword, userName=session['userid'],lp=looks_page//2 ,community_list=c_list,c_list=c_list,page=page,maxpage=int(math.ceil(result['count']/limit)))
   else:
     return redirect(url_for('login'))
 
@@ -101,15 +121,32 @@ def community_view():
       return render_template('/public/community_view.html', userName=session['userid'],
                                                          article=result,nickname=nickname,comments=comments,likes=likes,page=page)
     else: # 댓글 등록시, 
-      a_idx=request.form['articlenum']
-      id=session['userid']
-      username=session['username']
-      content=request.form['comment']
-      result=db.comment_write(a_idx,id,username,content)
-      if result:
-        return render_template('alert/add_success.html')
-      else:
-        return render_template('alert/add_fail.html')
+      type=int(request.form['type'])
+      if type==1: # 수정부분
+        idx=request.form['idx']
+        title=request.form['title']
+        content=request.form['content']
+        f=request.files['img']
+        beforefile=request.form['beforefilename']
+        imgpath='static/communitydb/' +nowDatetime2+"/"+nowDatetime+"_"+session['userid']+"_"+f.filename
+        createDirectory(os.getcwd()+"/static/communitydb/"+nowDatetime2)
+        f.save(imgpath)        
+        result=db.modify_community(idx,title,content,nowDatetime2+'/'+nowDatetime+"_"+session['userid']+"_"+f.filename)
+        print("-"*20)
+        print(beforefile)
+        if beforefile!="None": # 이전에 이미 사진이 등록되어있었다면, 사진삭제
+            os.remove(os.getcwd()+"/static/communitydb/"+beforefile)
+        return redirect(url_for('public.community_view',idx=idx)) 
+      elif type==2: # 댓글 작성기능
+        a_idx=request.form['articlenum']
+        id=session['userid']
+        username=session['username']
+        content=request.form['comment']
+        result=db.comment_write(a_idx,id,username,content)
+        if result:
+          return render_template('alert/add_success.html')
+        else:
+          return render_template('alert/add_fail.html')
   else:
     return redirect(url_for('login'))
 
