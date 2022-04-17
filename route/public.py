@@ -193,3 +193,8 @@ def likey():
       return render_template('alert/likey_off.html')
   else:
     return redirect(url_for('login')) 
+
+# contact us
+@bp.route('/contactus')
+def contactus():
+  return render_template('/public/contactus.html', userName="사용자명")
