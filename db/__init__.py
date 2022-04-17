@@ -240,6 +240,31 @@ def rend_communuty(idx="None"):
         result=None
     return result
 
+# 게시판 전체 들고오기
+def rend_notice_community(num=5):
+    result = None
+    try:
+        connection = con()
+        with connection:
+            with connection.cursor() as cursor:
+                # 쿼리중 오류가 나더라도, 커넥션은 정상적으로 닫아야 하므로 예외처리 추가
+                try:
+                    sql = '''
+                        select c.*,(select count(*) from commentdata where a_idx=c.idx) as comcount from communitydata c join notice n on c.idx=n.comidx limit %s;
+                    
+                    '''
+                    cursor.execute(sql,(num))
+                    result = cursor.fetchall()
+                    # print("%s %s %s %s %s @@@@"%(idx,id,title,content,filename))
+                except Exception as e1:
+                    print(e1)
+                    result=None
+    except Exception as e:
+        print(e)
+        result=None
+    return result
+
+
 # 게시판 글 작성 BD 연동
 def create_community(id,title,content,filename):
     result = None
@@ -275,6 +300,54 @@ def create_community(id,title,content,filename):
         result=None
     return result
 
+# 게시판 글 공지등록
+def insert_notice(idx):
+    result = None
+    try:
+        connection = con()
+        with connection:
+            with connection.cursor() as cursor:
+                # 쿼리중 오류가 나더라도, 커넥션은 정상적으로 닫아야 하므로 예외처리 추가
+                try:
+                    sql = '''
+                        insert into notice(comidx) values (%s);
+                    '''
+                    cursor.execute(sql,(idx))
+                    # print("%s %s %s %s %s @@@@"%(idx,id,title,content,filename))
+                    connection.commit() # insert, update ,delete후 커밋이 필수
+                    result = "성공"
+                except Exception as e1:
+                    print(e1)
+                    result=None
+    except Exception as e:
+        print(e)
+        result=None
+    return result
+
+# 게시판 글 공지삭제
+def delete_notice(idx):
+    result = None
+    try:
+        connection = con()
+        with connection:
+            with connection.cursor() as cursor:
+                # 쿼리중 오류가 나더라도, 커넥션은 정상적으로 닫아야 하므로 예외처리 추가
+                try:
+                    sql = '''
+                        delete from notice where comidx=%s;
+                    '''
+                    cursor.execute(sql,(idx))
+                    # print("%s %s %s %s %s @@@@"%(idx,id,title,content,filename))
+                    connection.commit() # insert, update ,delete후 커밋이 필수
+                    result = "성공"
+                except Exception as e1:
+                    print(e1)
+                    result=None
+    except Exception as e:
+        print(e)
+        result=None
+    return result
+
 # 게시판 글 작성 BD 연동
 def delete_community(idx):
     result = None
@@ -298,6 +371,27 @@ def delete_community(idx):
     except Exception as e:
         print(e)
         result=None
+    return result
+
+# 게시글 상태 가져오기
+def getarticle_status(idx):
+    result = None
+    try:
+        connection = con()
+        with connection:
+            with connection.cursor() as cursor:
+                # 쿼리중 오류가 나더라도, 커넥션은 정상적으로 닫아야 하므로 예외처리 추가
+                try:
+                    sql = '''
+                        select comidx from notice where comidx=%s;
+                    '''
+                    cursor.execute(sql,(idx))
+                    result = cursor.fetchone()
+                    #print(result)
+                except Exception as e1:
+                    print(e1)
+    except Exception as e:
+        print(e)
     return result
 
 # 닉네임 가져오기

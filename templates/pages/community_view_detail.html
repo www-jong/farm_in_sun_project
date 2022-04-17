@@ -116,13 +116,30 @@
             </a>
             <!-- 수정 페이지에서 모달로 변경해서 수정 필요합니다!! -->
             <!-- 아래에 기존 페이지로 넘어가는 버튼 있어요 -->
-            {% if article.id == userName%}
+            {% if article.id == userName or session.get('userstatus')==1%}
             <button type="submit" class="btn btn-outline-success" data-toggle="modal"
               data-target="#modalcommunitymodify" style="margin-right: 10px;">수정</button>
 
             <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModalCenter">
               삭제
             </button>
+            {% if session.get('userstatus')==1%}
+            {%if article_status==0%}
+            <form method="post">
+              <input type='hidden' name='type' value="3"/>
+            <button type="submit" class="btn btn-outline-success">
+              공지
+            </button>
+            <form>
+              {%else%}
+              <form method="post">
+                <input type='hidden' name='type' value="4"/>
+              <button type="submit" class="btn btn-outline-success">
+                공지삭제
+              </button>
+              <form>
+              {%endif%}
+            {% endif%}
             {% endif%}
           </div>
           <!-- 수정 삭제 끝 -->

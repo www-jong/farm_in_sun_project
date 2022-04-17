@@ -75,6 +75,24 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                {% for j in noti_list%}
+                                <tr>
+                                    <td>{{ j.idx }}(공지)</td>
+                                    <td>
+                                        <div class="boardtitle">
+                                            <a href={{url_for('public.community_view', idx=j.idx,page=page)}}>{{ j.title }}{%if j.comcount>0%}
+                                                <div style="color:red; margin-left:5px; float: right;">[{{j.comcount}}]
+                                                </div>
+                                                {%endif%}
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td>{{ j.uploaddate }}</td>
+                                    <td>{{ j.id }}</td>
+                                    <td>{{ j.likes }}</td>
+                                    <td>{{ j.looks }}</td>
+                                </tr>
+                                {%endfor%}
                                 {% for i in community_list %}
                                 <tr>
                                     <td>{{ i.idx }}</td>

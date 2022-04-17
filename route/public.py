@@ -84,9 +84,10 @@ def community():
       page=request.args.get('page',default=1,type=int) # 페이지
       result=db.count_communuty(keyword=keyword,look_type=lk)
       c_list=db.rend_community_paging(limit=limit,page=page-1,keyword=keyword,look_type=lk)
+      noti_list=db.rend_notice_community(3)
       print('maxpage : ',int(math.ceil(result['count']/limit)))
       print(result['count'])
-      return render_template('/public/community.html',lk=lk,keyword=keyword, userName=session['userid'],lp=looks_page//2 ,community_list=c_list,c_list=c_list,page=page,maxpage=int(math.ceil(result['count']/limit)))
+      return render_template('/public/community.html',userstatus=session['userstatus'],noti_list=noti_list,lk=lk,keyword=keyword, userName=session['userid'],lp=looks_page//2 ,community_list=c_list,c_list=c_list,page=page,maxpage=int(math.ceil(result['count']/limit)))
     else: #게시글 검색기능, 작성기능
       type=int(request.form['type'])
       if type==1: # 작성기능일경우
@@ -129,9 +130,10 @@ def community():
         print('검색 키워드 :',keyword)
         print('검색된 게시물 수 :',result)
         c_list=db.rend_community_paging(limit=limit,page=page-1,keyword=keyword,look_type=lk)
+        noti_list=db.rend_notice_community(3)
         print(keyword)
         print(c_list)
-        return render_template('/public/community.html',lk=lk,keyword=keyword, userName=session['userid'],lp=looks_page//2 ,community_list=c_list,c_list=c_list,page=page,maxpage=int(math.ceil(result['count']/limit)))
+        return render_template('/public/community.html',userstatus=session['userstatus'],noti_list=noti_list,lk=lk,keyword=keyword, userName=session['userid'],lp=looks_page//2 ,community_list=c_list,c_list=c_list,page=page,maxpage=int(math.ceil(result['count']/limit)))
   else:
     return redirect(url_for('login'))
 
@@ -149,8 +151,11 @@ def community_view():
       print(nickname)
       comments=db.getcomment(idx)
       print(comments)
+      article_status=0
+      if db.getarticle_status(idx):
+        article_status=1
       likes=db.get_likes(idx)['num']
-      return render_template('/public/community_view.html', userName=session['userid'],
+      return render_template('/public/community_view.html',article_status=article_status, userName=session['userid'],userstatus=session['userstatus'],
                                                          article=result,nickname=nickname,comments=comments,likes=likes,page=page)
     else: # 댓글 등록시, 
       type=int(request.form['type'])
@@ -180,6 +185,16 @@ def community_view():
           return render_template('alert/add_success.html')
         else:
           return render_template('alert/add_fail.html')
+      elif type==3: # 공지등록
+        idx=request.form['idx']
+        result=db.insert_notice(idx)
+        if result:
+          return render_template('alert/add_notice.html')
+      elif type==4:# 공지삭제
+        idx=request.form['idx']
+        result=db.delete_notice(idx)
+        if result:
+          return render_template('alert/delete_notice.html')
   else:
     return redirect(url_for('login'))
 
@@ -267,3 +282,8 @@ def likey():
       return render_template('alert/likey_off.html')
   else:
     return redirect(url_for('login')) 
+
+# contact us
+@bp.route('/contactus')
+def contactus():
+  return render_template('/public/contactus.html', userName="사용자명")
