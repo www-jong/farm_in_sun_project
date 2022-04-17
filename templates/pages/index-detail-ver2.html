@@ -140,12 +140,12 @@
                       <tbody>
                       {% for i in data_list %}
                       <tr>
-                          <td>{{ i[0] }}</td>
-                          <td>{{ i[1] }}</td>
-                          <td>{{ i[2] }}</td>
-                          <td>{{ i[3] }}</td>
-                          <td>{{ i[4] }}</td>
-                          <td>{{ i[5] }}</td>
+                          <td>{{ i.idx }}</td>
+                          <td>{{ i.title }}</td>
+                          <td>{{ i.uploaddate }}</td>
+                          <td>{{ i.id }}</td>
+                          <td>{{ i.likes }}</td>
+                          <td>{{ i.looks }}</td>
                       </tr>
                       {% endfor %}
                       </tbody>

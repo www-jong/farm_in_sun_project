@@ -69,7 +69,9 @@ def profiledit():
 def home():
     if "userid" in session:
         #SSR수행시 값을 전달하는 방법
-        return render_template('user/index.html',userName=session['userid'])
+        data_list=db.most_like_community()
+        print(data_list)
+        return render_template('user/index.html',userName=session['userid'],data_list=data_list)
     else:#세션정보 없을시, 
         return redirect(url_for('login'))
 
@@ -117,5 +119,15 @@ def myplantlist():
 def aiservice():
     if "userid" in session:
         return render_template('user/aiservice.html',userName=session['userid'])
+    else:#세션정보 있을시, 
+        return redirect(url_for('login'))
+    
+    
+#인기글
+@bp.route('/best', methods=['GET'])
+def best():
+    if "userid" in session:
+        data_list=db.most_like_community()
+        return render_template('user/index.html', data_list=data_list)
     else:#세션정보 있을시, 
         return redirect(url_for('login'))
