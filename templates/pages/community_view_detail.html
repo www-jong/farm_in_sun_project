@@ -1,139 +1,239 @@
 <div class="content-wrapper">
-    <section class="content">
-        <div class="container-fluid">
-        <!-- Bootstrap CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <section class="content">
+    <div class="container-fluid">
+      <!-- Bootstrap CSS -->
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+      <!-- css link-->
+      <link rel="stylesheet" href="../../static/stylesheets/community_view.css">
+
+      <div class="gg">
+        <p style="color:grey; opacity: 1;">공백제거용</p>
+      </div>
+
+      <!-- *************************************** -->
+      <!-- 댓글 내용 없어도 등록 되는 부분 수정 필요 -->
+      <!-- 수정 페이지에서 모달로 변경해서 백 필요 -->
+      <!-- 프로필 연동 -->
+      <!-- *************************************** -->
+
+      <div class="container my-">
+        <!-- Section: Block Content -->
+        <section>
+
+          <div class="card card-list " style="width: 1000px; margin: auto;">
+            <div class="card-header">
+              <div style="float: left;">
+                <!-- 프로필 사진 연동 필요! -->
+                <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(18).jpg" class="z-depth-1 rounded-circle"
+                  width="45" alt="avatar image">
+              </div>
+              <div class="d-flex flex-column pl-3" style="float: left;">
+                <!-- 이름 누르면 프로필로 가는 주소 -->
+                <a href="#!" class="font-weight-normal mb-0">{{nickname.username}}</a>
+                <!-- 작성일 -->
+                <p class="small text-muted mb-0">{{article.uploaddate}}</p>
+              </div>
+
+              <!-- 제목 -->
+              <div class="d-flex flex-column pl-3 float-right">
+                <p class="font-weight-normal mb-0" style="font-size: 20px;">{{article.title}}</p>
+              </div>
+
+            </div>
 
 
-        <!-- 백엔드 작업 아무것도 안해서 모든 게시글을 누르면 아래 작성한 게시글 내용이 보여요! -->
-        <div class="container my-5 py-5 z-depth-1">
-            <!--Section: Content-->
-            <section class="text-center px-md-5 mx-md-5 dark-grey-text">
-                <div class="container my-5">
-                    <!-- Section: Block Content -->
-                    <section>
-                      <div class="card card-list">
-                        <div class="card-header white d-flex justify-content-between align-items-center py-3">
-                          <div class="d-flex justify-content-start align-items-center">
-                            
-                            <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(18).jpg" class="z-depth-1 rounded-circle" width="45" alt="avatar image">
-                            <div class="d-flex flex-column pl-3">
-                              <!-- 프로필 -->
-                              <a href="#!" class="font-weight-normal mb-0">{{nickname.username}}</a>
-                              <!-- 작성일 -->
-                              <p class="small text-muted mb-0">{{article.uploaddate}}</p>
+            <div class="card-body">
+
+              <!-- 내용 -->
+              <p class="my-4" style="font-size: 20px; text-align: center;">{{article.content}}</p>
+              <!-- 업로드한 사진 들어갈 자리 -->
+              {%if article.filename%}
+              <div>
+                <img src="/static/communitydb/{{article.filename}}" class="img-fluid" id="imgsize">
+              </div>
+              {% endif%}
+              <br>
+              <hr style="color: rgb(60, 124, 21);">
+              <!-- 좋아요 -->
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex flex-row">
+                  <button type="button" onclick="location.href='{{url_for('public.likey', idx=article.idx)}}'"
+                    class="btn btn-light btn-sm py-1 px-2 m-0 mr-2"><i class="far fa-thumbs-up pr-1"
+                      style="color: blue;"></i>
+                    Like</button>
+                </div>
+
+                <div class="d-flex flex-column pl-3">
+                  <p class="small text-muted mb-0">{{likes}} likes - {{comments|count}} comments</p>
+                </div>
+                <!-- 좋아요 끝 -->
+              </div>
+            </div>
+
+            <!-- 댓글 작성자  프로필 사진 부분-->
+            <div class="" style="background-color: rgb(245, 244, 244);">
+              {%for comment in comments%}
+              <hr>
+              <div class="px-3">
+                <img
+                  src={%if comment.userimage is none %}"/static/images/defaultimg.png"{%else%}{{comment.userimage}}{%endif%}
+                  class="z-depth-1 rounded-circle float-left" width="40" alt="avatar image">
+                <div class="d-flex flex-column pl-3">
+                  <div class="">
+                    <a href="" class="font-weight-normal float-left mb-0">{{comment.username}}</a>
+                    <p class="small text-muted float-right mb-0">{{comment.uploaddate}}</p>
+                  </div>
+                  <p class="font-weight-light dark-grey-text mb-0">{{comment.content}}</p>
+                </div>
+              </div>
+              {% endfor%}
+              <br>
+            </div>
+
+            <div class="card-footer white py-3">
+              <div class="form-group mb-0">
+                <form method="post">
+                  <input type="hidden" name="articlenum" value="{{article.idx}}" />
+                  <textarea class="form-control rounded-0" name="comment" id="exampleFormControlTextarea1" rows="2"
+                    placeholder="Write a comment" style="resize: none;"></textarea>
+                  <div class="text-right pt-1">
+                    <a href="#">
+                      <button type="submit" class="btn btn-success" style="margin-top: 5px; border:none;">댓글
+                        등록</button>
+                    </a>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- 수정/삭제 버튼 -->
+          <br>
+          <div style="text-align: center;">
+            <a href="{{url_for('public.community',page=page)}}" style="margin-right: 10px;">
+              <button type="button" class="btn btn-outline-success">목록</button>
+            </a>
+            <!-- 수정 페이지에서 모달로 변경해서 수정 필요합니다!! -->
+            <!-- 아래에 기존 페이지로 넘어가는 버튼 있어요 -->
+            {% if article.id == userName%}
+            <button type="submit" class="btn btn-outline-success" data-toggle="modal"
+              data-target="#modalcommunitymodify" style="margin-right: 10px;">수정</button>
+
+            <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModalCenter">
+              삭제
+            </button>
+            {% endif%}
+          </div>
+          <!-- 수정 삭제 끝 -->
+
+        </section>
+        <!-- Section: Block Content -->
+      </div>
+
+      <!-- 가존 수정 페이지 넘어가는 버튼 작업 끝나면 삭제 -->
+      <a href="{{url_for('public.community_modify', idx=article.idx)}}" style="margin-right: 10px;">
+        <button type="button" class="btn btn-outline-success">수정</button>
+      </a>
+
+      <!-- 수정 모달 -->
+      <!-- 모달 시작-->
+      <div class="modal fade" id="modalcommunitymodify" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+              <!-- 게시판 수정시 오류 (게시판 상세 수정 페이지에서 모달로 변경) -->
+              <form method="post" enctype="multipart/form-data">
+                <div class="max-w-md mx-auto bg-white rounded-lg overflow-hidden md:max-w-lg">
+                  <div class="md:flex">
+                    <div class="w-full px-4 py-6 ">
+                      <p
+                        style="font-size: 400; font-family:'Nanum Gothic Coding'; font-weight: bold; text-align: center; margin-top: 20px;">
+                        <i class="bi bi-pencil-square" style="margin-right: 10px;"></i>게시판
+                        수정
+                      </p>
+                      <div class="mb-1" style="margin-top: 40px;">
+                        <span class="text-sm">제목</span>
+                        <input type="text" name='plantname' placeholder="제목을 입력해 주세요"
+                          class="h-12 px-3 w-full border-green-700 border-2 focus:outline-none focus:border-gray-500">
+                      </div>
+                      <br>
+                      <div class="mb-1">
+                        <span class="text-sm">게시글</span>
+                        <textarea type="text" name='memo' placeholder="글을 작성해 주세요"
+                          class="h-64 py-1 px-3 w-full border-2 border-green-700  focus:outline-none focus:border-gray-700 resize-none"></textarea>
+                      </div>
+                      <div class="mb-1">
+                        <span class="text-sm">사진</span>
+                        <div
+                          class="relative border-dotted h-24  border-dashed border-2 border-green-700 bg-gray-100 flex justify-center items-center">
+                          <div class="absolute">
+                            <div class="flex flex-col items-center">
+                              <i class="fa fa-folder-open fa-3x text-green-500"></i>
+                              <span class="block text-gray-400 font-normal">식물의
+                                사진을
+                                등록하세요</span>
                             </div>
                           </div>
-                          <!--센터 추가한 부분-->
-                          <div class="d-flex justify-content-center align-items-center">
-                            <div class="d-flex flex-column pl-3">
-                              <!-- 제목 -->
-                              <p  class="font-weight-normal mb-0">{{article.title}}</p>
-                            </div>
-                          </div>
-                          <ul class="list-unstyled d-flex align-items-center text-muted mb-0">
-                            <li>
-                              <a>
-                                <i class="far fa-circle fa-sm pl-3 material-tooltip-main" data-toggle="tooltip"
-                                title="Mark as read"></i>
-                              </a>
-                            </li>
-                            <li><a><i class="far fa-window-minimize fa-sm pl-3"></i></a></li>
-                            <li><a><i class="fas fa-times fa-sm pl-3"></i></a></li>
-                          </ul>
-                        </div>
-                        <div class="card-body">
-                          <!-- 업로드한 사진 들어갈 자리 -->
-                          {%if article.filename%}
-                          <img src="/static/communitydb/{{article.filename}}" class="img-fluid">
-                          {% endif%}
-                          <!-- 내용 -->
-                          <p class="my-4">{{article.content}}</p>
-                          <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex flex-row">
-                              <button type="button" onclick="location.href='{{url_for('public.likey', idx=article.idx)}}'" class="btn btn-light btn-sm py-1 px-2 m-0 mr-2"><i class="far fa-thumbs-up pr-1"></i> Like</button>
-                            </div>
-                            <!-- 좋아요인데 빼도 되여 -->
-                            <div class="d-flex flex-column pl-3">
-                              <p class="small text-muted mb-0">{{likes}} likes - {{comments|count}} comments</p>
-                            </div>
-                            <!-- 좋아요 끝 -->
-                          </div>
-                        </div>
-                        <div class="py-4 grey lighten-4">
-                          {%for comment in comments%}
-                          <div class="px-3">
-                            <img src={%if comment.userimage is none %}"/static/images/defaultimg.png"{%else%}{{comment.userimage}}{%endif%} class="z-depth-1 rounded-circle float-left" width="40" alt="avatar image">
-                            <div class="d-flex flex-column pl-3">
-                              <div class="">
-                                <!-- 댓글 작성자  프로필 사진 부분-->
-                              <a href="" class="font-weight-normal mb-0">{{comment.username}}</a>
-                                <p class="small text-muted float-right mb-0">{{comment.uploaddate}}</p>
-                              </div>
-                              <p class="font-weight-light dark-grey-text mb-0">{{comment.content}}</p>
-                            </div>
-                          </div>
-                          <hr class="my-3">
-                          {% endfor%}
-                        </div>
-                        <div class="card-footer white py-3">
-                          <div class="form-group mb-0">
-                            <form method="post">
-                              <input type="hidden" name="articlenum" value="{{article.idx}}"/>
-                            <textarea class="form-control rounded-0" name="comment" id="exampleFormControlTextarea1" rows="2"
-                              placeholder="Write a comment"></textarea>
-                            <div class="text-right pt-1">
-                              <a href="#">
-                                <button type="submit" class="btn btn-primary btn-sm"style= "margin-top: 5px; border:none;">댓글 등록</button>
-                              </a>
-                            </div>
-                          </form>
-                          </div>
+                          <input type="file" class="h-full w-full opacity-0" name="img">
                         </div>
                       </div>
-                  
-                    </section>
-                    <!-- Section: Block Content -->
+                      <div class="mt-3 text-right">
+                        <div class="modal-footer">
+                          <br>
+                          <br>
+                          <button type="submit" class="btn btn-outline-secondary" style="margin: auto;">게시글
+                            등록</button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  
-                  <!-- 수정/삭제 버튼 (로그인 세션 필요, 동일한 계정만 수정 삭제 할 수 있게 또는 보이게)-->
-                  <div style="margin-top: -10px">
-                    <a href="{{url_for('public.community',page=page)}}" style="margin-right: 10px;">
-                      <button type="button" class="btn btn-outline-secondary">게시글 목록</button>
-                  </a>
-                  {% if article.id == userName%}
-                    <a href="{{url_for('public.community_modify', idx=article.idx)}}" style="margin-right: 10px;">
-                        <button type="button" class="btn btn-outline-secondary">게시글 수정</button>
-                    </a>
-                      <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#exampleModalCenter">
-                        게시글 삭제
-                      </button>
-                    {% endif%}
-                  </div> 
-                  <!-- 수정 삭제 끝 -->
-                   <!--모달부분-->
-                   <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">게시글을 삭제하시겠습니까?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-        <a href="{{url_for('public.community_delete', idx=article.idx)}}">
-        <button type="button" class="btn btn-primary">삭제</button>
-      </a>
-      </div>
-    </div>
-  </div>
-</div>
-                   <!--모달 끝-->
-        <!-- Option 1: Bootstrap Bundle with Popper -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
-    </section>
+      </div>
+      <!-- 모달 끝 -->
+
+
+
+
+      <!-- 삭제 모달 -->
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">게시글을 삭제하시겠습니까?</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+              <a href="{{url_for('public.community_delete', idx=article.idx)}}">
+                <button type="button" class="btn btn-danger">삭제</button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--모달 끝-->
+
+      <div class="gg">
+        <p style="color:grey; opacity: 1;">공백제거용</p>
+      </div>
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script type="text/javascript" src="../../static/dist/js/community_view.js"></script>
+
+      <!-- Option 1: Bootstrap Bundle with Popper -->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+      </script>
+
+    </div>
+  </section>
 </div>

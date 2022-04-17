@@ -1,8 +1,16 @@
 /* 폰트 */
 @import url('https://fonts.googleapis.com/css2?family=Gothic+A1:wght@500&family=Nanum+Gothic+Coding&display=swap');
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css");
+/* 아이콘 */
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css");
 
-.gg{
-    opacity: 0.0;
+p,
+span {
+  font-family: 'Nanum Gothic Coding';
+}
+
+.gg {
+  opacity: 0.0;
 }
 
 h2 {
@@ -126,4 +134,30 @@ h2 {
 
 #modalLoginForm1 {
   overflow: auto;
+}
+
+/* 등록 모달 css */
+.dropdown {
+  --max-scroll: 8;
+  --text: #3F4656;
+  --border: rgb(34, 143, 34);
+  width: 415px;
+  position: relative;
+}
+
+.dropdown select {
+  display: none;
+}
+
+
+select.dropdown {
+  padding: 9px 16px;
+  border-radius: 6px;
+  color: var(--text);
+  border: 2px solid var(--border);
+  background: var(--background);
+  line-height: 22px;
+  font-size: 16px;
+  font-family: inherit;
+  -webkit-appearance: none;
 }

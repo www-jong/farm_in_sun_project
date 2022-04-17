@@ -46,7 +46,7 @@ def back():
   return render_template('/alert/back.html', userName="사용자명")  
 
 
-limit=5 # 한페이지에 보일 게시글수
+limit=10 # 한페이지에 보일 게시글수
 looks_page=7 # 최대 표시할 페이지수
 # 커뮤니티 리스트
 @bp.route('/community',methods=['GET','POST'])

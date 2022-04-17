@@ -1,0 +1,43 @@
+/* 폰트 */
+@import url('https://fonts.googleapis.com/css2?family=Gothic+A1:wght@500&family=Nanum+Gothic+Coding&display=swap');
+/* 아이콘 */
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css");
+
+h3 {
+  font-family: 'Nanum Gothic Coding';
+  font-size: 30px;
+}
+
+#cardframe {
+  transition: all 0.2s linear;
+}
+
+#cardframe:hover {
+  transform: scale(1.05);
+}
+
+/* 등록 종류 css */
+.dropdown {
+  --max-scroll: 8;
+  --text: #3F4656;
+  --border: rgb(15, 113, 15);
+  width: 415px;
+  position: relative;
+}
+
+.dropdown select {
+  display: none;
+}
+
+
+select.dropdown {
+  padding: 9px 16px;
+  border-radius: 6px;
+  color: var(--text);
+  border: 2px solid var(--border);
+  background: var(--background);
+  line-height: 22px;
+  font-size: 16px;
+  font-family: inherit;
+  -webkit-appearance: none;
+}
