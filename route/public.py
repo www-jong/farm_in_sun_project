@@ -10,6 +10,10 @@ from email.policy import default
 import queue,math
 from unittest import result
 from datetime import timedelta,datetime
+
+import smtplib
+from email.mime.text import MIMEText
+
 bp = Blueprint('public', __name__, url_prefix='/public')
 def createDirectory(directory):
     try: 
@@ -284,6 +288,31 @@ def likey():
     return redirect(url_for('login')) 
 
 # contact us
-@bp.route('/contactus')
+@bp.route('/contactus',methods=['GET','POST'])
 def contactus():
-  return render_template('/public/contactus.html', userName="사용자명")
+  if request.method=='GET':  # 해당게시글 클릭시, 
+   return render_template('/public/contactus.html', userName="사용자명")
+  else:
+    email=request.form['email']# 메일계정아이디,비밀번호와 동일한 이메일주솔르 적어야함
+    subject=request.form['subject']
+    content=request.form['content']
+    s=smtplib.SMTP('smtp.naver.com',587)
+    sender_id='test' # 메일계정아이디
+    sender_pw='testpasswd' # 메일계정비밀번호
+    smtp_info = {
+    "smtp_server": 'smtp.naver.com',  # SMTP 서버 주소
+    "smtp_user_id": sender_id,
+    "smtp_user_pw": sender_pw,
+    "smtp_port": 587 # SMTP 서버 포트
+    }
+    msg=MIMEText(content,_charset="utf8")
+    msg['subject']=subject 
+    msg['From']=email
+    msg['To']='weon1009@gmail.com'
+    smtp = smtplib.SMTP(smtp_info['smtp_server'], smtp_info['smtp_port'])
+    smtp.ehlo
+  smtp.starttls()  # TLS 보안 처리
+  smtp.login(sender_id , sender_pw)  # 로그인
+  smtp.sendmail(msg['From'], msg['To'].split(','), msg.as_string())
+  smtp.quit()
+  return render_template('alert/email_success.html')
