@@ -73,5 +73,5 @@ def trans():
 if __name__=='__main__':
     #ssl_context=ssl.SSLContext(ssl.PROTOCOL_TLS)
     #ssl_context.load_cert_chain(certfile='newcert.pem', keyfile='newkey.pem', password='secret')
-    app.run(host="0.0.0.0",port=8080, debug=False)
-    #app.run(debug=True)
+    #app.run(host="0.0.0.0",port=8080, debug=False)
+    app.run(debug=True)
