@@ -18,7 +18,7 @@
               <div class="container">
                 <div class="box">
             
-                  <p id= "introtitle" style="font-size: 40px;">Hello, Farm in Sun!<img src="../../static/images/icon/framinsun2.png" style="width:65px; height:65px;"></p>
+                  <p id= "introtitle" style="font-size: 40px; display:inline-block;" >Hello, Farm in Sun!<img src="../../static/images/icon/framinsun2.png" style="width:65px; height:65px;"></p>
             
                 </div>
             </div>
@@ -38,14 +38,14 @@
               <!-- 한줄에는 12칸으로 잡혀있다. -->
               
 
-              <p style="margin : 40px 0px 40px 30px; text-align: left; font-size: 35px;"> | 기상상황</p>
+              <p style="margin : 40px 0px 40px 30px; text-align: left; font-size: 35px;"> | 오늘의 날씨</p>
               
               <div class="row">
                 <div class="col-lg-3 col-6">
                   <!-- small box -->
-                  <div class="card" style="width: 18rem;">
+                  <div class="card ml-2" style="margin: 0px 10px 0px 10px; width: 18rem;">
                     <img class="card-image-top" src="../../static/images/humi.jpg">
-                    <div class="card-body">
+                    <div class="card-body ml-2">
                         <h4 class="m-b-20">습도</h4>
                         <h2 class="text-right"><img class="f-left" src="../../static/images/icon/water.png" style="width:35px; height:35px;"><div class="chumidity"></h2>
                         <p class="m-b-0">대한민국, 서울 현재 습도</p>
@@ -55,7 +55,7 @@
                 <!-- ./col -->
                 <div class="col-lg-3 col-6">
                   <!-- small box -->
-                  <div class="card" style="width: 18rem;">
+                  <div class="card ml-2" style="margin: 0px 10px 0px 10px; width: 18rem;">
                     <img class="card-image-top" src="../../static/images/wind.jpg">
                     <div class="card-body">
                         <h4 class="m-b-20">풍속</h4>
@@ -67,7 +67,7 @@
                 <!-- ./col -->
                 <div class="col-lg-3 col-6">
                   <!-- small box -->
-                  <div class="card" style="width: 18rem;">
+                  <div class="card ml-2" style="margin: 0px 10px 0px 10px; width: 18rem;">
                     <img class="card-image-top" src="../../static/images/rain.jpg">
                     <div class="card-body">
                         <h4 class="m-b-20">강수확률</h4>
@@ -79,7 +79,7 @@
                 <!-- ./col -->
                 <div class="col-lg-3 col-6">
                   <!-- small box -->
-                  <div class="card" style="width: 18rem;">
+                  <div class="card ml-2" style="margin: 0px 10px 0px 10px; width: 18rem;">
                     <img class="card-image-top" src="../../static/images/temp.jpg">
                     <div class="card-body">
                         <h4 class="m-b-20">온도</h4>
@@ -92,36 +92,38 @@
               </div>     
           
             </div><!-- /.container-fluid -->
-            
+
+            <p style="margin : 40px 0px 0px 30px; text-align: left; font-size: 35px;"> | 날씨에 따른 식물케어</p>
+
             <!--기후에 따른 작물-->
             <section class="page-contain">
-              <a href="#" class="data-card">
+              <a href="/public/chung" class="data-card">
                 <h3>청경채</h3>
                 <h4>오늘 날씨와 청경채</h4>
                 <p class="temp1">- </p>
-                <p class="type1">- </p>
+                <p class="probability1">- </p>
                 
               </a>
-              <a href="#" class="data-card">
+              <a href="/public/sang" class="data-card">
                 <h3>상추</h3>
                 <h4>오늘 날씨와 상추</h4>
                 <p class="temp2">- </p>
-                <p class="type1">- </p>
+                <p class="probability1">- </p>
               </a>
 
-              <a href="#" class="data-card">
+              <a href="/public/ggae" class="data-card">
                 <h3>깻잎</h3>
                 <h4>오늘 날씨와 깻잎</h4>
                 <p class="temp3">- </p>
-                <p class="type1">- </p>
+                <p class="probability1">- </p>
               </a>
             </section>
 
 
           <!--커뮤니티 인기글-->
        <div style="font-size: 40px; margin: 30px 0px 30px 0px; text-align: center;">
-        <h1>커뮤니티 인기글</h1>
-        <!--테이블-->
+        <p style="margin : 40px 0px 0px 30px; text-align: left; font-size: 35px;"> | 커뮤니티 인기글 </p>
+s        <!--테이블-->
        </div>
             <!-- board list area -->
             <div id="board-list">

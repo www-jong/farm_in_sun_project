@@ -8,9 +8,9 @@ var $temp2 = data.list[0].main.temp;
 var $temp3 = data.list[0].main.temp;
 var $humidity = data.list[0].main.humidity;
 var $type = data.list[0].weather[0].description;
-var $type1 = data.list[0].weather[0].description;
 var $sky = data.list[0].weather[0].main;
 var $probability = data.list[0].clouds.all;
+var $probability1 = data.list[0].clouds.all;
 var $windspeed = data.list[0].wind.speed;
 
 if($type == "Clouds")
@@ -36,18 +36,6 @@ $temp1 = "더운날씨! 관리가 필요해요!";
 else
 $temp1 = "좋은 온도입니다!";
 
-$('.temp1').append($temp1);
-$('.temp2').append($temp1);
-$('.temp3').append($temp1);
-$('.type1').append($type1);
-
-if($temp1 < 20)
-$temp1 = "추운날씨 따뜻하게 해주세요";
-else if($temp1 > 25)
-$temp1 = "더운날씨! 관리가 필요해요!";
-else
-$temp1 = "좋은 온도입니다!";
-
 if($temp2 < 10)
 $temp2 = "추운날씨 따뜻하게 해주세요";
 else if($temp2 > 15)
@@ -62,11 +50,17 @@ $temp3 = "더운날씨! 관리가 필요해요!";
 else
 $temp3 = "좋은 온도입니다!";
 
-if($type1 == "Clouds")
-$type1 = "흐린날! 일조량 관리에 유의해주세요!";
-else if($type1 == "Rain")
-$type1 = "비오는 날! 수분관리가 필요해요!";
+if($probability1 >= 80)
+$probability1 = "비오는 날! 수분관리가 필요해요!";
+else if($probability1 > 40)
+$probability1 = "흐린날! 일조량 관리에 유의해주세요!";
 else
-$type1 = "맑은 날! 햇볕을 많이 쬐게 해주세요!";
+$probability1 = "맑은 날! 햇볕을 많이 쬐게 해주세요!";
+
+$('.temp1').append($temp1);
+$('.temp2').append($temp2);
+$('.temp3').append($temp3);
+$('.probability1').append($probability1);
+
 
 });

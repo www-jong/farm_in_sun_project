@@ -8,16 +8,13 @@
   
       <link rel="stylesheet" href="../../static/stylesheets/login.css">
       <link rel="stylesheet" href="../../static/stylesheets/loginstyle.css">
-
+      <link rel="stylesheet" href="../../static/stylesheets/login_button.css">
   
 </head>
 
 <body>
   <div class="container">
-
-  <div class="box">
-    
-  </div>
+  <div class="box"></div>
   <div class="container-forms">
     <div class="container-info">
       <div class="info-item">
@@ -52,15 +49,17 @@
         <form name="form1" method="post">
       <div class="form-item log-in">
         <div class="table">
+
+          <div class="table-cell">
             {% if stat%}
             <p class="login-box-msg" style="color:red; font-size:15px;">회원가입이 완료되었습니다. 로그인해주세요.</p>
             {% endif%}
-          <div class="table-cell">
             <input name="check" value="1" type="hidden" />
             <input name="id" placeholder="Id" type="text" />
             <input name="pwd" placeholder="Password" type="Password" />
-            <div class="btn" onclick="location.href='/user/home'">
+            <div id="btnLogin" type="submit" style="margin: 25px 0px 0px 78px;">
               <button type="submit">Log in</button>
+
             </div>
           </div>
         </div>
@@ -74,7 +73,7 @@
             <input name="id" placeholder="Id" type="text" />
             <input name="username" placeholder="Username" type="text" />
             <input name="pwd" placeholder="Password" type="Password" />
-            <div id="btnLogin" class="btn" type="submit">
+            <div id="btnLogin" type="submit" style="margin: 25px 0px 0px 78px;">
                 <button type="submit">Sign up</button>
             </div>
           </div>
