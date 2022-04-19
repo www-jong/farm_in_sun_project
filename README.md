@@ -2,4 +2,4 @@
 farm_in_sun 프로젝트
 
 
-pip install -U flask-paginate
+windows10/Flask/python3.8x/
