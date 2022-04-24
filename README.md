@@ -2,4 +2,4 @@
 farm_in_sun 프로젝트
 
 
-windows10/Flask/python3.8x..
+windows10/Flask/python3.8x...
