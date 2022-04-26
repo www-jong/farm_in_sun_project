@@ -50,7 +50,9 @@
               <!-- 업로드한 사진 들어갈 자리 -->
               {%if article.filename%}
               <div>
-                <img src="/static/imgdb/community/{{ article.uploaddate.strftime('%Y%m%d') }}/{{article.idx}}/{{article.filename}}" class="img-fluid" id="imgsize">
+                <img
+                  src="/static/imgdb/community/{{ article.uploaddate.strftime('%Y%m%d') }}/{{article.idx}}/{{article.filename}}"
+                  class="img-fluid" id="imgsize">
               </div>
               {% endif%}
               <br>
@@ -79,22 +81,38 @@
                 <img
                   src={%if comment.userimage is none %}"/static/images/defaultimg.png"{%else%}{{comment.userimage}}{%endif%}
                   class="z-depth-1 rounded-circle float-left" width="40" alt="avatar image">
+                <!-- 댓글  -->
                 <div class="d-flex flex-column pl-3">
                   <div class="">
                     <a href="" class="font-weight-normal float-left mb-0">{{comment.username}}</a>
                     <p class="small text-muted float-right mb-0">{{comment.uploaddate}}</p>
                   </div>
-                  <p class="font-weight-light dark-grey-text mb-0">{{comment.content}}</p>
+                  <div style="margin-top:10px">
+                    <input class="font-weight-light dark-grey-text float-left mb-0" value="{{comment.content}}"
+                      style="outline: none; border: none; background-color:transparent;" id="modify" readonly>
+                    <!-- 댓글 수정, 삭제 -->
+                    {% if comment.id == userName or session.get('userstatus')==1%}
+                    <div style="float: right;">
+                      <!-- 댓글 수정 -->
+                      <button type="button" id="readonly_f">
+                        <i class="bi bi-pencil-square" style="margin-right: 5px;"></i></button>
+                      <!-- 댓글 삭제 -->
+                      <a href="{{url_for('public.reply_delete', idx=comment.idx)}}">
+                        <button type="button"><i class="bi bi-trash"></i></button>
+                      </a>
+                    </div>
+                    {%endif%}
+                  </div>
                 </div>
               </div>
               {% endfor%}
               <br>
             </div>
-
+            <!-- 댓글 등록 -->
             <div class="card-footer white py-3">
               <div class="form-group mb-0">
                 <form method="post">
-                  <input type="hidden" name="type" value="2"/>
+                  <input type="hidden" name="type" value="2" />
                   <input type="hidden" name="articlenum" value="{{article.idx}}" />
                   <textarea class="form-control rounded-0" name="comment" id="exampleFormControlTextarea1" rows="2"
                     placeholder="Write a comment" style="resize: none;"></textarea>
@@ -126,21 +144,21 @@
             {% if session.get('userstatus')==1%}
             {%if article_status==0%}
             <form method="post">
-              <input type='hidden' name='type' value="3"/>
-            <button type="submit" class="btn btn-outline-success">
-              공지
-            </button>
-            <form>
-              {%else%}
-              <form method="post">
-                <input type='hidden' name='type' value="4"/>
+              <input type='hidden' name='type' value="3" />
               <button type="submit" class="btn btn-outline-success">
-                공지삭제
+                공지
               </button>
               <form>
-              {%endif%}
-            {% endif%}
-            {% endif%}
+                {%else%}
+                <form method="post">
+                  <input type='hidden' name='type' value="4" />
+                  <button type="submit" class="btn btn-outline-success">
+                    공지삭제
+                  </button>
+                  <form>
+                    {%endif%}
+                    {% endif%}
+                    {% endif%}
           </div>
           <!-- 수정 삭제 끝 -->
 
@@ -148,7 +166,7 @@
         <!-- Section: Block Content -->
       </div>
 
-    
+
 
       <!-- 수정 모달 -->
       <!-- 모달 시작-->
@@ -159,11 +177,11 @@
             <div class="modal-body">
               <!-- 게시판 수정시 오류 (게시판 상세 수정 페이지에서 모달로 변경) -->
               <form method="post" enctype="multipart/form-data">
-                <input type='hidden' name="idx" value="{{article.idx}}"/>
-                <input type="hidden" name="type" value="1"/>
+                <input type='hidden' name="idx" value="{{article.idx}}" />
+                <input type="hidden" name="type" value="1" />
                 <input type="hidden" value="{{article.filename}}" name="beforefilename">
                 <input type="hidden" value="{{ article.uploaddate.strftime('%Y%m%d') }}" name="beforedate">
-                
+
                 <div class="max-w-md mx-auto bg-white rounded-lg overflow-hidden md:max-w-lg">
                   <div class="md:flex">
                     <div class="w-full px-4 py-6 ">

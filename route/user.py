@@ -191,3 +191,25 @@ def best():
         return render_template('user/index.html', data_list=data_list)
     else:#세션정보 있을시, 
         return redirect(url_for('login'))
+
+# comming soon
+@bp.route('commingsoon1')
+def commingsoon1():
+    if "userid" in session:
+        return render_template('user/commingsoon1.html')
+    else:#세션정보 있을시, 
+        return redirect(url_for('login'))
+
+@bp.route('commingsoon2')
+def commingsoon2():
+    if "userid" in session:
+        return render_template('user/commingsoon2.html')
+    else:#세션정보 있을시, 
+        return redirect(url_for('login'))
+
+@bp.route('commingsoon3')
+def commingsoon3():
+    if "userid" in session:
+        return render_template('user/commingsoon3.html')
+    else:#세션정보 있을시, 
+        return redirect(url_for('login'))

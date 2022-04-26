@@ -461,6 +461,31 @@ def getcomment(idx):
         print(e)
     return result
 
+# 댓글 삭제
+def delete_reply(idx):
+    result = None
+    try:
+        connection = con()
+        with connection:
+            with connection.cursor() as cursor:
+                # 쿼리중 오류가 나더라도, 커넥션은 정상적으로 닫아야 하므로 예외처리 추가
+                try:
+                    sql = '''
+                        delete from commentdata where idx=%s;
+                    '''
+                    cursor.execute(sql,(idx))
+                    # print("%s %s %s %s %s @@@@"%(idx,id,title,content,filename))
+                    connection.commit() # insert, update ,delete후 커밋이 필수
+                    result = "성공"
+                    print(result)
+                except Exception as e1:
+                    print(e1)
+                    result=None
+    except Exception as e:
+        print(e)
+        result=None
+    return result
+
 # 좋아요!
 def likey(id,idx):
     result = None
