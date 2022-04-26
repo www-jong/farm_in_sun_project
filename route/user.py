@@ -75,10 +75,11 @@ def profiledit():
                     print(c1pwd)
                     print(session['userimage'])
                     result=db.modify_userprofile(session['userid'],username,c1pwd,session['userimage'])
+                    session['username']=username
                 else:# 새 이미지가 있는경우
                     session['userimage']=f.filename
                     result=db.modify_userprofile(session['userid'],username,c1pwd,f.filename)
-                
+                    session['username']=username
                 '''
                 if session['userimage'] is None or session['userimage']=="_": #기존이미지가 없을경우
                     print('기존 유저이미지가 없을 경우')

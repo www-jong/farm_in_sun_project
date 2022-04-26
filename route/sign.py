@@ -48,6 +48,7 @@ def login():
                 session['username']=result['username']
                 session['userimage']=result['userimage']
                 session['userstatus']=result['status']
+                session['joindate']=result['joindate']
                 print(session['userid'])
                 return redirect(url_for('user.home'))
             else:
