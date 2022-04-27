@@ -220,7 +220,7 @@ def aiservice():
             print('*'*10)
             print(preds)
             print(lin_imgsize)
-            return render_template('alert/learning_complate.html')
+            return render_template('user/aiservice_pred.html')
     else:#세션정보 있을시, 
         return redirect(url_for('login'))
     
