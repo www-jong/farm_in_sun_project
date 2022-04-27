@@ -272,6 +272,18 @@ def community_delete():
   else:
     return redirect(url_for('login')) 
 
+# 게시글 댓글 삭제
+@bp.route('/reply_delete')
+def reply_delete():
+  if "userid" in session:
+    idx = request.args.get('idx', type = str)
+    result=db.delete_reply(idx)
+    print(result)
+    if result:
+      return render_template('alert/reply_delete.html')
+  else:
+    return redirect(url_for('login')) 
+
 # 좋아요!
 @bp.route('/likey')
 def likey():
