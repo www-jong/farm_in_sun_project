@@ -102,7 +102,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form>
+                            <form method="post" enctype="multipart/form-data">
                                 <div class="contents" style="margin-left: 35px;">
                                     <div class="upload-box">
                                         <div id="drop-file" class="drag-file">
@@ -112,7 +112,7 @@
                                             <img src="" alt="미리보기 이미지" class="preview">
                                         </div>
                                         <label class="file-label" for="chooseFile">Choose File</label>
-                                        <input class="file" id="chooseFile" type="file"
+                                        <input class="file" id="chooseFile" type="file" name='predfile'
                                             onchange="dropFile.handleFiles(this.files)"
                                             accept="image/png, image/jpeg, image/gif">
                                     </div>

@@ -5,6 +5,11 @@ import db,os
 from datetime import timedelta
 from werkzeug.utils import secure_filename
 from datetime import datetime
+import cv2
+import numpy as np
+import joblib
+from sklearn.preprocessing import PolynomialFeatures
+from tensorflow.python.keras.models import load_model
 def createDirectory(directory): 
     try: 
         if not os.path.exists(directory): 
@@ -13,6 +18,23 @@ def createDirectory(directory):
         print("Error: Failed to create the directory.")
 now=datetime.now()
 nowDatetime = now.strftime('%Y%m%d%H%M%S')
+
+def test2_sizing(path,size=256,ar=30,green=60):
+    src=cv2.imread(path)
+    src=cv2.resize(src,dsize=(size,size))
+    img_hsv=cv2.cvtColor(src,cv2.COLOR_BGR2HSV)
+    lower_green=(green-ar,30,30)
+    upper_green=(green+ar,255,255)
+    img_mask=cv2.inRange(img_hsv,lower_green,upper_green)
+    img_result=cv2.bitwise_and(src,src,mask=img_mask)
+
+    img_result_to_bgr = cv2.cvtColor(img_result, cv2.COLOR_HSV2BGR)
+    gray = cv2.cvtColor(img_result_to_bgr, cv2.COLOR_BGR2GRAY)
+    gray=cv2.cvtColor(gray,cv2.COLOR_BGR2RGB)
+    mask = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY)[1]
+    # 가우시안 블러 적용해봄
+    #mask = cv2.GaussianBlur(mask, (0,0), sigmaX=2, sigmaY=2, borderType = cv2.BORDER_DEFAULT)
+    return np.sum(mask)/size/size
 
 def imagesaver(path,file,beforefilename="X",customfilename="X"):
   #path경로는 ~~~/~~~ 형식으로 끝에 /가 오면 안된다.
@@ -175,10 +197,30 @@ def myplantlist():
 
 
 # 예측 파일 업로드
-@bp.route('/aiservice')
+@bp.route('/aiservice',methods=['GET','POST'])
 def aiservice():
     if "userid" in session:
-        return render_template('user/aiservice.html',userName=session['userid'])
+        if request.method=='GET':
+            return render_template('user/aiservice.html',userName=session['userid'])
+        else:
+            poly_features=PolynomialFeatures(degree=2,include_bias=False)
+            linear_model=joblib.load(os.getcwd()+'/ml/filename.pkl')
+            X_scaler=joblib.load(os.getcwd()+'/ml/X_scaler.pkl')
+            y_scaler=joblib.load(os.getcwd()+'/ml/y_scaler.pkl')
+            pred_model=load_model(os.getcwd()+'/ml/norm_best_model.h5')
+            f=request.files['predfile']
+            imagesaver("user/"+session['userid']+"/learn",f)
+            imgsize=test2_sizing(os.getcwd()+"/static/imgdb/"+"user/"+session['userid']+'/learn/'+f.filename,256,25,55)
+            lin_imgsize=linear_model.predict(poly_features.fit_transform([[imgsize]]))
+            meta=[[24.63,64.84,3258.3,47.88,177.5536,142.665939,float(str(lin_imgsize)[3:8])]]
+            print(meta)
+            normed_X=X_scaler.transform(np.array(meta).reshape(-1,1))
+            norm_preds=pred_model.predict(normed_X.reshape(1,-1))
+            preds=y_scaler.inverse_transform(norm_preds)
+            print('*'*10)
+            print(preds)
+            print(lin_imgsize)
+            return render_template('alert/learning_complate.html')
     else:#세션정보 있을시, 
         return redirect(url_for('login'))
     
