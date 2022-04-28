@@ -10,6 +10,7 @@ import numpy as np
 import joblib
 from sklearn.preprocessing import PolynomialFeatures
 from tensorflow.python.keras.models import load_model
+import re
 def createDirectory(directory): 
     try: 
         if not os.path.exists(directory): 
@@ -34,7 +35,7 @@ def test2_sizing(path,size=256,ar=30,green=60):
     mask = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY)[1]
     # 가우시안 블러 적용해봄
     #mask = cv2.GaussianBlur(mask, (0,0), sigmaX=2, sigmaY=2, borderType = cv2.BORDER_DEFAULT)
-    return np.sum(mask)/size/size
+    return np.sum(mask)/size/size,mask
 
 def imagesaver(path,file,beforefilename="X",customfilename="X"):
   #path경로는 ~~~/~~~ 형식으로 끝에 /가 오면 안된다.
@@ -210,17 +211,24 @@ def aiservice():
             pred_model=load_model(os.getcwd()+'/ml/norm_best_model.h5')
             f=request.files['predfile']
             imagesaver("user/"+session['userid']+"/learn",f)
-            imgsize=test2_sizing(os.getcwd()+"/static/imgdb/"+"user/"+session['userid']+'/learn/'+f.filename,256,25,55)
+            imgsize,mask_img=test2_sizing(os.getcwd()+"/static/imgdb/"+"user/"+session['userid']+'/learn/'+f.filename,256,25,55)
             lin_imgsize=linear_model.predict(poly_features.fit_transform([[imgsize]]))
-            meta=[[24.63,64.84,3258.3,47.88,177.5536,142.665939,float(str(lin_imgsize)[3:8])]]
+            
+            meta=[[24.63,64.84,1444.3,47.88,177.5536,142.6639,float(str(lin_imgsize)[2:8])]]
             print(meta)
             normed_X=X_scaler.transform(np.array(meta).reshape(-1,1))
             norm_preds=pred_model.predict(normed_X.reshape(1,-1))
-            preds=y_scaler.inverse_transform(norm_preds)
+            preds=float(str(y_scaler.inverse_transform(norm_preds))[2:7])/float(str(lin_imgsize)[2:8])*100
             print('*'*10)
-            print(preds)
+            print('예측값 :',float(str(lin_imgsize)[2:8]))
+            print('성장도 :',float(str(y_scaler.inverse_transform(norm_preds))[2:7]))
+            print('성장률 :',preds)
             print(lin_imgsize)
-            return render_template('alert/learning_complate.html')
+            return render_template('alert/learning_complate.html',
+                                   pred_result=str(preds)[0:4]+"%",
+                                   now_size=float(str(lin_imgsize)[2:8]),
+                                   growed=float(str(y_scaler.inverse_transform(norm_preds))[2:7]),
+                                   mask_img=mask_img)
     else:#세션정보 있을시, 
         return redirect(url_for('login'))
     
