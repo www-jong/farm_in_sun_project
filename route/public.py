@@ -150,6 +150,9 @@ def community_view():
       page = request.args.get('page', type = int)
       print(idx)
       result=db.rend_communuty(idx)
+      artiuserprof=db.getuserprofile(result['id'])
+      print('***')
+      print(artiuserprof['userimage'])
       print(result)
       nickname=db.getnickname(idx)# 해당 게시글의 닉네임을 얻어오는 로직
       print(nickname)
@@ -160,7 +163,7 @@ def community_view():
         article_status=1
       likes=db.get_likes(idx)['num']
       return render_template('/public/community_view.html',article_status=article_status, userName=session['userid'],userstatus=session['userstatus'],
-                                                         article=result,nickname=nickname,comments=comments,likes=likes,page=page)
+                                                         article=result,nickname=nickname,comments=comments,likes=likes,page=page,artipro=artiuserprof['userimage'])
     else: # 댓글 등록시, 
       type=int(request.form['type'])
       if type==1: # 게시글 수정부분

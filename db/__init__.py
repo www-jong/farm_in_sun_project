@@ -415,6 +415,27 @@ def getnickname(idx):
         print(e)
     return result
 
+# 글쓴이 사진 가져오기
+def getuserprofile(id):
+    result = None
+    try:
+        connection = con()
+        with connection:
+            with connection.cursor() as cursor:
+                # 쿼리중 오류가 나더라도, 커넥션은 정상적으로 닫아야 하므로 예외처리 추가
+                try:
+                    sql = '''
+                        select userimage from userdata where id=%s;
+                    '''
+                    cursor.execute(sql,(id))
+                    result = cursor.fetchone()
+                    #print(result)
+                except Exception as e1:
+                    print(e1)
+    except Exception as e:
+        print(e)
+    return result
+
 # 코멘트작성
 def comment_write(a_idx,id,username,content):
     result = None
@@ -459,31 +480,6 @@ def getcomment(idx):
                     print(e1)
     except Exception as e:
         print(e)
-    return result
-
-# 댓글 삭제
-def delete_reply(idx):
-    result = None
-    try:
-        connection = con()
-        with connection:
-            with connection.cursor() as cursor:
-                # 쿼리중 오류가 나더라도, 커넥션은 정상적으로 닫아야 하므로 예외처리 추가
-                try:
-                    sql = '''
-                        delete from commentdata where idx=%s;
-                    '''
-                    cursor.execute(sql,(idx))
-                    # print("%s %s %s %s %s @@@@"%(idx,id,title,content,filename))
-                    connection.commit() # insert, update ,delete후 커밋이 필수
-                    result = "성공"
-                    print(result)
-                except Exception as e1:
-                    print(e1)
-                    result=None
-    except Exception as e:
-        print(e)
-        result=None
     return result
 
 # 좋아요!
@@ -642,3 +638,4 @@ if __name__=='__main__':
 else:
     print("다른사람이 사용시 호출")
     pass
+
