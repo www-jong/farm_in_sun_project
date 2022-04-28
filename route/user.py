@@ -224,11 +224,15 @@ def aiservice():
             print('성장도 :',float(str(y_scaler.inverse_transform(norm_preds))[2:7]))
             print('성장률 :',preds)
             print(lin_imgsize)
+<<<<<<< HEAD
             return render_template('alert/learning_complate.html',
                                    pred_result=str(preds)[0:4]+"%",
                                    now_size=float(str(lin_imgsize)[2:8]),
                                    growed=float(str(y_scaler.inverse_transform(norm_preds))[2:7]),
                                    mask_img=mask_img)
+=======
+            return render_template('user/aiservice_pred.html')
+>>>>>>> 6be3504315b3941accd4dfec0b54955404c478d0
     else:#세션정보 있을시, 
         return redirect(url_for('login'))
     
@@ -239,5 +243,27 @@ def best():
     if "userid" in session:
         data_list=db.most_like_community()
         return render_template('user/index.html', data_list=data_list)
+    else:#세션정보 있을시, 
+        return redirect(url_for('login'))
+
+# comming soon
+@bp.route('commingsoon1')
+def commingsoon1():
+    if "userid" in session:
+        return render_template('user/commingsoon1.html')
+    else:#세션정보 있을시, 
+        return redirect(url_for('login'))
+
+@bp.route('commingsoon2')
+def commingsoon2():
+    if "userid" in session:
+        return render_template('user/commingsoon2.html')
+    else:#세션정보 있을시, 
+        return redirect(url_for('login'))
+
+@bp.route('commingsoon3')
+def commingsoon3():
+    if "userid" in session:
+        return render_template('user/commingsoon3.html')
     else:#세션정보 있을시, 
         return redirect(url_for('login'))

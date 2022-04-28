@@ -1,0 +1,158 @@
+/* 폰트 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap');
+
+/* 네비바 */
+nav {
+  position: fixed;
+  width: 100%;
+  height: 70px;
+  background: white;
+  text-align: center;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+nav ul {
+  text-align: center;
+}
+
+nav ul li {
+  display: inline-block;
+}
+
+nav ul li a {
+  padding: 18px;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0);
+  font-size: 18px;
+  text-decoration: none;
+  display: block;
+}
+
+nav ul li a:hover {
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3), inset 0 0 1px rgba(255, 255, 255, 0.3);
+  color: rgba(0, 0, 0, 1);
+}
+
+#carouselExampleControls {
+  z-index: 1;
+}
+
+/* 네비바 끝 */
+
+.all {
+  display: flex;
+  flex-flow: row wrap;
+  min-width: 280px;
+  margin-top: 50px;
+}
+
+
+/* 시작버튼 */
+.start_b {
+  width: 100px;
+  margin: auto;
+  display: block;
+}
+
+.text {
+  margin-top: 110;
+}
+
+/* About */
+#card {
+  text-align: center;
+}
+
+h5 {
+  text-align: right;
+}
+
+/* service */
+.box {
+  margin: 0 auto;
+  /* auto 알아서 중앙으로 맞춰줌 */
+  padding: 20px 0 20px 0;
+  width: 1280px;
+  height: 300px;
+}
+
+#box1 {
+  width: 350px;
+  height: 200px;
+  margin-left: 55px;
+  float: left;
+}
+
+#box2 {
+  width: 350px;
+  height: 200px;
+  margin-left: 50px;
+  float: left;
+}
+
+#box3 {
+  width: 350px;
+  height: 200px;
+  margin-left: 50px;
+  float: left;
+}
+
+
+/* 제목 style */
+html {
+  background: white;
+}
+
+.popout {
+  font-family: Futura, sans-serif;
+  color: rgb(213, 63, 63);
+  font-weight: 90;
+  font-size: 60px;
+  padding: 10px;
+}
+
+@keyframes ani {
+  0% {
+    transform: translate3d(0, 0, 0);
+    text-shadow: 0em 0em 0 rgb(186, 249, 203);
+    color: black;
+  }
+
+  30% {
+    transform: translate3d(0, 0, 0);
+    text-shadow: 0em 0em 0 rgb(186, 249, 203);
+    color: black;
+  }
+
+  70% {
+    transform: translate3d(0.08em, -0.08em, 0);
+    text-shadow: -0.08em 0.08em rgb(186, 249, 203);
+  }
+
+  100% {
+    transform: translate3d(0.08em, -0.08em, 0);
+    text-shadow: -0.08em 0.08em rgb(186, 249, 203);
+    color: black;
+  }
+}
+
+.popout span {
+  position: relative;
+  display: inline-block;
+  animation: ani 1s infinite alternate cubic-bezier(0.86, 0, 0.07, 1);
+}
+
+.popout span:nth-last-child(1n) {
+  animation-delay: -0.1666666667s;
+}
+
+.popout span:nth-last-child(2n) {
+  animation-delay: -0.3333333333s;
+}
+
+.popout span:nth-last-child(3n) {
+  animation-delay: -0.5s;
+}

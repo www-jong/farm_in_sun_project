@@ -1,0 +1,35 @@
+<!-- 모든사이트는 특별하지 않는 이상 반복적인 패턴으로 조립이 된것이다. -->
+<!-- 화면구성요소를 쪼개서 조립해 하나의 페이지가 완성되도록 구성한다. -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% include "com/head.html" ignore missing%}
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700|Raleway:300,400,500,700">
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css">
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+
+    {% include "com/preloader.html" %}
+    {% include "com/navibar.html" %}
+    {% include "com/sidebar.html" %}
+
+    {% include "pages/aiservice_pred_detail.html" %}
+    {% include "com/copyright.html" %}
+    {% include "com/right.html" %}
+  </div>
+  <!-- ./wrapper -->
+
+  {% include "com/foot.html" %}
+  <script src="/static/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
+  <script src="/static/plugins/filterizr/jquery.filterizr.min.js"></script>
+</body>
+
+</html>
