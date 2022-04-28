@@ -12,6 +12,7 @@ from route import user
 app=Flask(__name__)
 app.secret_key='너무나도보안적인시크릿키'
 
+
 @app.before_request
 def make_session_permanent(): #세션의 만료시간 설정 : 60분
     session.permanent = True
